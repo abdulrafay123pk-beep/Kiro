@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tris — GameZone</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <div class="logo">🎮 GameZone</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="snake.html">Snake</a>
+      <a href="tris.html" class="active">Tris</a>
+      <a href="memory.html">Memory</a>
+      <a href="breakout.html">Breakout</a>
+      <a href="chess.html">♟ Scacchi</a>
+    </nav>
+  </header>
+
+  <main class="game-page">
+    <h1>⭕ <span>Tris</span></h1>
+
+    <div class="score-bar">
+      <div>❌ Tu: <b id="scoreX">0</b></div>
+      <div>Pareggi: <b id="scoreDraw">0</b></div>
+      <div>⭕ CPU: <b id="scoreO">0</b></div>
+    </div>
+
+    <div class="mode-select">
+      <button class="btn" id="vs-human">👥 2 Giocatori</button>
+      <button class="btn btn-outline" id="vs-cpu">🤖 vs CPU</button>
+    </div>
+
+    <p class="status-msg" id="status">Inizia una partita!</p>
+
+    <div class="tris-board" id="board">
+      <div class="tris-cell" data-i="0"></div>
+      <div class="tris-cell" data-i="1"></div>
+      <div class="tris-cell" data-i="2"></div>
+      <div class="tris-cell" data-i="3"></div>
+      <div class="tris-cell" data-i="4"></div>
+      <div class="tris-cell" data-i="5"></div>
+      <div class="tris-cell" data-i="6"></div>
+      <div class="tris-cell" data-i="7"></div>
+      <div class="tris-cell" data-i="8"></div>
+    </div>
+
+    <button class="btn" id="resetBtn">🔄 Nuova partita</button>
+  </main>
+
+  <footer><p>© 2026 GameZone</p></footer>
+
+  <script>
+    const cells = document.querySelectorAll('.tris-cell');
+    const statusEl = document.getElementById('status');
+    const resetBtn = document.getElementById('resetBtn');
+    const scoreXEl = document.getElementById('scoreX');
+    const scoreOEl = document.getElementById('scoreO');
+    const scoreDrawEl = document.getElementById('scoreDraw');
+    const vsCpuBtn = document.getElementById('vs-cpu');
+    const vsHumanBtn = document.getElementById('vs-human');
+
+    const WIN_LINES = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+
+    let board, currentPlayer, gameActive, vsComputer, scores;
+    scores = { X: 0, O: 0, draw: 0 };
+    vsComputer = false;
+
+    function init() {
+      board = Array(9).fill('');
+      currentPlayer = 'X';
+      gameActive = true;
+      cells.forEach(c => { c.textContent = ''; c.classList.remove('taken', 'win'); });
+      updateStatus();
+    }
+
+    function updateStatus() {
+      if (!gameActive) return;
+      const who = vsComputer
+        ? (currentPlayer === 'X' ? 'Il tuo turno (❌)' : 'CPU sta pensando...')
+        : `Turno di ${currentPlayer === 'X' ? '❌ X' : '⭕ O'}`;
+      statusEl.textContent = who;
+    }
+
+    function checkWin(player) {
+      return WIN_LINES.find(line => line.every(i => board[i] === player)) || null;
+    }
+
+    function isDraw() { return board.every(v => v !== ''); }
+
+    function handleClick(e) {
+      const i = parseInt(e.target.dataset.i);
+      if (!gameActive || board[i] !== '') return;
+      if (vsComputer && currentPlayer === 'O') return;
+      makeMove(i, currentPlayer);
+    }
+
+    function makeMove(i, player) {
+      board[i] = player;
+      cells[i].textContent = player === 'X' ? '❌' : '⭕';
+      cells[i].classList.add('taken');
+
+      const winLine = checkWin(player);
+      if (winLine) {
+        winLine.forEach(idx => cells[idx].classList.add('win'));
+        const label = vsComputer ? (player === 'X' ? '🎉 Hai vinto!' : '🤖 Ha vinto la CPU!') : `🎉 Vince ${player}!`;
+        statusEl.textContent = label;
+        scores[player]++;
+        updateScores();
+        gameActive = false;
+        return;
+      }
+      if (isDraw()) {
+        statusEl.textContent = "🤝 Pareggio!";
+        scores.draw++;
+        updateScores();
+        gameActive = false;
+        return;
+      }
+
+      currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+      updateStatus();
+
+      if (vsComputer && currentPlayer === 'O' && gameActive) {
+        setTimeout(cpuMove, 400);
+      }
+    }
+
+    function updateScores() {
+      scoreXEl.textContent = scores.X;
+      scoreOEl.textContent = scores.O;
+      scoreDrawEl.textContent = scores.draw;
+    }
+
+    // Minimax CPU
+    function cpuMove() {
+      const best = minimax(board, 'O', 0, true);
+      makeMove(best.index, 'O');
+    }
+
+    function minimax(b, player, depth, isMax) {
+      const opp = player === 'O' ? 'X' : 'O';
+      if (checkWin('O')) return { score: 10 - depth };
+      if (checkWin('X')) return { score: depth - 10 };
+      const empty = b.reduce((a, v, i) => v === '' ? [...a, i] : a, []);
+      if (empty.length === 0) return { score: 0 };
+
+      let best = isMax ? { score: -Infinity } : { score: Infinity };
+      for (const i of empty) {
+        b[i] = player;
+        const res = minimax(b, opp, depth + 1, !isMax);
+        b[i] = '';
+        if (isMax ? res.score > best.score : res.score < best.score) {
+          best = { score: res.score, index: i };
+        }
+      }
+      return best;
+    }
+
+    cells.forEach(c => c.addEventListener('click', handleClick));
+
+    resetBtn.addEventListener('click', init);
+
+    vsCpuBtn.addEventListener('click', () => {
+      vsComputer = true;
+      vsCpuBtn.classList.remove('btn-outline');
+      vsHumanBtn.classList.add('btn-outline');
+      scores = { X: 0, O: 0, draw: 0 };
+      updateScores();
+      init();
+    });
+
+    vsHumanBtn.addEventListener('click', () => {
+      vsComputer = false;
+      vsHumanBtn.classList.remove('btn-outline');
+      vsCpuBtn.classList.add('btn-outline');
+      scores = { X: 0, O: 0, draw: 0 };
+      updateScores();
+      init();
+    });
+
+    init();
+  </script>
+
+</body>
+</html>

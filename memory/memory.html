@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Memory — GameZone</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <div class="logo">🎮 GameZone</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="snake.html">Snake</a>
+      <a href="tris.html">Tris</a>
+      <a href="memory.html" class="active">Memory</a>
+      <a href="breakout.html">Breakout</a>
+      <a href="chess.html">♟ Scacchi</a>
+    </nav>
+  </header>
+
+  <main class="game-page">
+    <h1>🃏 <span>Memory</span></h1>
+
+    <div class="score-bar">
+      <div>Mosse: <b id="moves">0</b></div>
+      <div>Coppie: <b id="pairs">0</b> / 8</div>
+      <div>Tempo: <b id="timer">0s</b></div>
+    </div>
+
+    <div class="memory-board" id="board"></div>
+
+    <button class="btn" id="resetBtn">🔄 Nuova partita</button>
+  </main>
+
+  <footer><p>© 2026 GameZone</p></footer>
+
+  <script>
+    const EMOJIS = ['🦊','🐶','🐱','🐸','🦁','🐯','🐺','🦄'];
+    let cards, flipped, matched, moves, timer, timerInterval, locked;
+
+    const boardEl   = document.getElementById('board');
+    const movesEl   = document.getElementById('moves');
+    const pairsEl   = document.getElementById('pairs');
+    const timerEl   = document.getElementById('timer');
+    const resetBtn  = document.getElementById('resetBtn');
+
+    function init() {
+      clearInterval(timerInterval);
+      cards = [...EMOJIS, ...EMOJIS].sort(() => Math.random() - 0.5);
+      flipped = []; matched = 0; moves = 0; timer = 0; locked = false;
+      movesEl.textContent = 0;
+      pairsEl.textContent = 0;
+      timerEl.textContent = '0s';
+      render();
+    }
+
+    function render() {
+      boardEl.innerHTML = '';
+      cards.forEach((emoji, i) => {
+        const card = document.createElement('div');
+        card.className = 'mem-card';
+        card.dataset.i = i;
+        card.innerHTML = `
+          <div class="mem-inner">
+            <div class="mem-front">🎴</div>
+            <div class="mem-back">${emoji}</div>
+          </div>`;
+        card.addEventListener('click', () => flip(card, i));
+        boardEl.appendChild(card);
+      });
+    }
+
+    function flip(card, i) {
+      if (locked || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+
+      if (moves === 0 && matched === 0) startTimer();
+
+      card.classList.add('flipped');
+      flipped.push({ card, i });
+
+      if (flipped.length === 2) {
+        moves++;
+        movesEl.textContent = moves;
+        locked = true;
+
+        const [a, b] = flipped;
+        if (cards[a.i] === cards[b.i]) {
+          // Match
+          setTimeout(() => {
+            a.card.classList.add('matched');
+            b.card.classList.add('matched');
+            matched++;
+            pairsEl.textContent = matched;
+            flipped = [];
+            locked = false;
+            if (matched === 8) win();
+          }, 500);
+        } else {
+          // No match
+          setTimeout(() => {
+            a.card.classList.remove('flipped');
+            b.card.classList.remove('flipped');
+            flipped = [];
+            locked = false;
+          }, 900);
+        }
+      }
+    }
+
+    function startTimer() {
+      timerInterval = setInterval(() => {
+        timer++;
+        timerEl.textContent = timer + 's';
+      }, 1000);
+    }
+
+    function win() {
+      clearInterval(timerInterval);
+      setTimeout(() => {
+        alert(`🎉 Bravo! Hai completato il Memory in ${moves} mosse e ${timer} secondi!`);
+      }, 300);
+    }
+
+    resetBtn.addEventListener('click', init);
+    init();
+  </script>
+
+</body>
+</html>
