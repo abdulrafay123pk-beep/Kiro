@@ -3,25 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Memory — GameZone</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Memory - GameZone</title>
+  <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
-
   <header>
-    <div class="logo">🎮 GameZone</div>
+    <div class="logo">&#x1F3AE; GameZone</div>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="snake.html">Snake</a>
-      <a href="tris.html">Tris</a>
-      <a href="memory.html" class="active">Memory</a>
-      <a href="breakout.html">Breakout</a>
-      <a href="chess.html">♟ Scacchi</a>
+      <a href="../index.html">Home</a>
+      <a href="../snake.html">Snake</a>
+      <a href="../tris.html">Tris</a>
+      <a href="../memory.html" class="active">Memory</a>
+      <a href="../breakout.html">Breakout</a>
+      <a href="../chess.html">&#x265F; Scacchi</a>
     </nav>
   </header>
 
   <main class="game-page">
-    <h1>🃏 <span>Memory</span></h1>
+    <h1>&#x1F0CF; <span>Memory</span></h1>
 
     <div class="score-bar">
       <div>Mosse: <b id="moves">0</b></div>
@@ -31,27 +30,31 @@
 
     <div class="memory-board" id="board"></div>
 
-    <button class="btn" id="resetBtn">🔄 Nuova partita</button>
+    <button class="btn" id="resetBtn">&#x1F504; Nuova partita</button>
   </main>
 
-  <footer><p>© 2026 GameZone</p></footer>
+  <footer><p>&copy; 2026 GameZone</p></footer>
 
   <script>
-    const EMOJIS = ['🦊','🐶','🐱','🐸','🦁','🐯','🐺','🦄'];
+    const EMOJIS = ['🐶', '🐱', '🐭', '🐹', '🦊', '🐻', '🐼', '🦄'];
     let cards, flipped, matched, moves, timer, timerInterval, locked;
 
-    const boardEl   = document.getElementById('board');
-    const movesEl   = document.getElementById('moves');
-    const pairsEl   = document.getElementById('pairs');
-    const timerEl   = document.getElementById('timer');
-    const resetBtn  = document.getElementById('resetBtn');
+    const boardEl = document.getElementById('board');
+    const movesEl = document.getElementById('moves');
+    const pairsEl = document.getElementById('pairs');
+    const timerEl = document.getElementById('timer');
+    const resetBtn = document.getElementById('resetBtn');
 
     function init() {
       clearInterval(timerInterval);
       cards = [...EMOJIS, ...EMOJIS].sort(() => Math.random() - 0.5);
-      flipped = []; matched = 0; moves = 0; timer = 0; locked = false;
-      movesEl.textContent = 0;
-      pairsEl.textContent = 0;
+      flipped = [];
+      matched = 0;
+      moves = 0;
+      timer = 0;
+      locked = false;
+      movesEl.textContent = '0';
+      pairsEl.textContent = '0';
       timerEl.textContent = '0s';
       render();
     }
@@ -64,7 +67,7 @@
         card.dataset.i = i;
         card.innerHTML = `
           <div class="mem-inner">
-            <div class="mem-front">🎴</div>
+            <div class="mem-front">&#x1F3B4;</div>
             <div class="mem-back">${emoji}</div>
           </div>`;
         card.addEventListener('click', () => flip(card, i));
@@ -87,7 +90,6 @@
 
         const [a, b] = flipped;
         if (cards[a.i] === cards[b.i]) {
-          // Match
           setTimeout(() => {
             a.card.classList.add('matched');
             b.card.classList.add('matched');
@@ -98,7 +100,6 @@
             if (matched === 8) win();
           }, 500);
         } else {
-          // No match
           setTimeout(() => {
             a.card.classList.remove('flipped');
             b.card.classList.remove('flipped');
@@ -126,6 +127,5 @@
     resetBtn.addEventListener('click', init);
     init();
   </script>
-
 </body>
 </html>
