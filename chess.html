@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scacchi - GameZone</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    #board-wrap { display:flex; gap:1.5rem; flex-wrap:wrap; justify-content:center; align-items:flex-start; }
+    #cb { border-collapse:collapse; border:3px solid var(--accent2); border-radius:6px; overflow:hidden; box-shadow:0 8px 32px rgba(0,0,0,.6); }
+    #cb td { width:62px; height:62px; text-align:center; vertical-align:middle; font-size:2.1rem; cursor:pointer; user-select:none; position:relative; }
+    @media (max-width:540px){ #cb td{ width:40px; height:40px; font-size:1.3rem; } }
+    .light{ background:#f0d9b5; } .dark{ background:#b58863; } .sel{ background:#f6f669 !important; }
+    .dot::after{ content:''; position:absolute; width:24px; height:24px; border-radius:50%; background:rgba(20,100,30,.5); top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none; }
+    .cap{ box-shadow:inset 0 0 0 5px rgba(20,100,30,.6); } .last{ background:rgba(200,210,50,.4) !important; } .chk{ background:rgba(230,50,50,.55) !important; }
+    .sidebar{ display:flex; flex-direction:column; gap:.9rem; min-width:185px; }
+    .pbox{ background:var(--card); border:2px solid var(--accent2); border-radius:var(--radius); padding:.7rem 1rem; display:flex; align-items:center; gap:.6rem; font-weight:700; }
+    .pbox.active{ border-color:var(--accent); }
+    .mlog{ background:var(--card); border:1px solid var(--accent2); border-radius:var(--radius); padding:.6rem; max-height:200px; overflow-y:auto; font-size:.82rem; font-family:monospace; color:var(--muted); line-height:1.9; }
+    .mlog .mw{ color:#f0d9b5; } .mlog .mb{ color:#b58863; }
+    #promo{ display:none; position:fixed; inset:0; background:rgba(0,0,0,.78); z-index:999; align-items:center; justify-content:center; } #promo.on{ display:flex; }
+    .pbox2{ background:var(--surface); border:2px solid var(--accent); border-radius:var(--radius); padding:1.4rem; text-align:center; }
+    .pchoice{ display:flex; gap:.7rem; justify-content:center; flex-wrap:wrap; }
+    .pchoice div{ font-size:2.3rem; width:56px; height:56px; background:var(--card); border:2px solid var(--accent2); border-radius:10px; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+    .pchoice div:hover{ border-color:var(--accent); transform:scale(1.08); }
+  </style>
+</head>
+<body>
+<header>
+  <div class="logo">&#x1F3AE; GameZone</div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="snake.html">Snake</a>
+    <a href="tris.html">Tris</a>
+    <a href="memory.html">Memory</a>
+    <a href="breakout.html">Breakout</a>
+    <a href="chess.html" class="active">&#x265F; Scacchi</a>
+  </nav>
+</header>
+
+<main class="game-page">
+  <h1>&#x265F;&#xFE0F; <span>Scacchi</span></h1>
+  <div style="display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;">
+    <button class="btn" id="btnAI">&#x1F916; vs IA</button>
+    <button class="btn btn-outline" id="btnHuman">&#x1F465; 2 Giocatori</button>
+    <button class="btn" id="btnNew">&#x25B6; Nuova partita</button>
+    <button class="btn btn-outline" id="btnUndo">&#x21A9; Annulla</button>
+  </div>
+  <p class="status-msg" id="msg">Clicca un pezzo bianco per iniziare!</p>
+  <div id="board-wrap">
+    <table id="cb"><tbody id="tbody"></tbody></table>
+    <div class="sidebar">
+      <div class="pbox active" id="bw"><span style="font-size:1.4rem">&#x2654;</span><span id="lw">Bianco (Tu)</span></div>
+      <div class="pbox" id="bb"><span style="font-size:1.4rem">&#x265A;</span><span id="lb">Nero (IA)</span></div>
+      <div style="font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Mosse</div>
+      <div class="mlog" id="mlog">-</div>
+    </div>
+  </div>
+</main>
+
+<footer><p>&copy; 2026 GameZone</p></footer>
+
+<div id="promo"><div class="pbox2"><h3>Promuovi il pedone</h3><div class="pchoice" id="pchoice"></div></div></div>
+
+<script>
+const G={wK:'\u2654',wQ:'\u2655',wR:'\u2656',wB:'\u2657',wN:'\u2658',wP:'\u2659',bK:'\u265A',bQ:'\u265B',bR:'\u265C',bB:'\u265D',bN:'\u265E',bP:'\u265F'};
+const INIT=[['bR','bN','bB','bQ','bK','bB','bN','bR'],['bP','bP','bP','bP','bP','bP','bP','bP'],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],['wP','wP','wP','wP','wP','wP','wP','wP'],['wR','wN','wB','wQ','wK','wB','wN','wR']];
+let board,turn,sel,legalSqs,history,castle,ep,over,vsAI,busy;
+function cloneBoard(b){return b.map(r=>r.slice());}
+function newGame(){board=cloneBoard(INIT);turn='w';sel=null;legalSqs=[];history=[];castle={wK:true,wQ:true,bK:true,bQ:true};ep=null;over=false;busy=false;document.getElementById('mlog').textContent='-';buildTable();draw();setMsg('Turno del Bianco '+G.wK+' - clicca un pezzo!');}
+function buildTable(){const tb=document.getElementById('tbody');tb.innerHTML='';for(let r=0;r<8;r++){const tr=document.createElement('tr');for(let c=0;c<8;c++){const td=document.createElement('td');td.className=(r+c)%2===0?'light':'dark';td.dataset.r=r;td.dataset.c=c;td.addEventListener('click',onCellClick);tr.appendChild(td);}tb.appendChild(tr);}}
+function cell(r,c){return document.querySelector('#cb td[data-r="'+r+'"][data-c="'+c+'"]');}
+function draw(){for(let r=0;r<8;r++)for(let c=0;c<8;c++){const td=cell(r,c);if(!td)continue;td.className=(r+c)%2===0?'light':'dark';const p=board[r][c];td.textContent=p?G[p]:'';}if(history.length>0){const lm=history[history.length-1];const a=cell(lm[0],lm[1]);if(a)a.classList.add('last');const b=cell(lm[2],lm[3]);if(b)b.classList.add('last');}if(!over){const kp=findKing(board,turn);if(kp&&inCheck(board,turn)){const kc=cell(kp[0],kp[1]);if(kc)kc.classList.add('chk');}}if(sel){const sc=cell(sel[0],sel[1]);if(sc)sc.classList.add('sel');for(const [lr,lc] of legalSqs){const sq=cell(lr,lc);if(!sq)continue;if(board[lr][lc])sq.classList.add('cap');else sq.classList.add('dot');}}document.getElementById('bw').className='pbox'+(turn==='w'?' active':'');document.getElementById('bb').className='pbox'+(turn==='b'?' active':'');}
+function setMsg(t){document.getElementById('msg').textContent=t;}
+function onCellClick(e){if(over||busy)return;if(vsAI&&turn==='b')return;const r=parseInt(e.currentTarget.dataset.r,10);const c=parseInt(e.currentTarget.dataset.c,10);if(sel){const found=legalSqs.some(([lr,lc])=>lr===r&&lc===c);if(found){execMove(sel[0],sel[1],r,c,true);sel=null;legalSqs=[];return;}sel=null;legalSqs=[];}const p=board[r][c];if(p&&p[0]===turn){sel=[r,c];legalSqs=getLegal(board,r,c,turn,castle,ep);}draw();}
+function execMove(fr,fc,tr,tc,doAIafter){const p=board[fr][fc];const col=p[0];const typ=p[1];const opp=col==='w'?'b':'w';history.push([fr,fc,tr,tc,JSON.stringify(board),JSON.stringify(castle),ep]);let newEP=null;const captured=board[tr][tc];if(captured&&captured[1]==='R'){if(tr===7&&tc===0)castle.wQ=false;if(tr===7&&tc===7)castle.wK=false;if(tr===0&&tc===0)castle.bQ=false;if(tr===0&&tc===7)castle.bK=false;}if(typ==='K'){const row=col==='w'?7:0;if(fc===4&&tc===6){board[row][5]=board[row][7];board[row][7]=0;}if(fc===4&&tc===2){board[row][3]=board[row][0];board[row][0]=0;}castle[col+'K']=false;castle[col+'Q']=false;}if(typ==='R'){if(fr===7&&fc===0)castle.wQ=false;if(fr===7&&fc===7)castle.wK=false;if(fr===0&&fc===0)castle.bQ=false;if(fr===0&&fc===7)castle.bK=false;}if(typ==='P'&&ep&&tr===ep[0]&&tc===ep[1])board[col==='w'?tr+1:tr-1][tc]=0;if(typ==='P'&&Math.abs(tr-fr)===2)newEP=[(fr+tr)/2,tc];board[tr][tc]=p;board[fr][fc]=0;ep=newEP;if(typ==='P'&&(tr===0||tr===7)){busy=true;showPromo(col,choice=>{board[tr][tc]=col+choice;busy=false;finishMove(opp,doAIafter);});return;}finishMove(opp,doAIafter);}
+function finishMove(opp,doAIafter){logMove();turn=opp;if(checkmate(board,opp)){over=true;draw();setMsg('Scacco matto! Vince il '+(opp==='b'?'Bianco':'Nero')+'!');return;}if(stalemate(board,opp)){over=true;draw();setMsg('Stallo - pareggio!');return;}if(inCheck(board,opp))setMsg('Scacco al '+(opp==='w'?'Bianco':'Nero')+'!');else setMsg('Turno del '+(opp==='w'?'Bianco '+G.wK:'Nero '+G.bK));draw();if(doAIafter&&vsAI&&opp==='b'&&!over){busy=true;setTimeout(()=>{doAI();busy=false;},300);}}
+function showPromo(col,cb){const pc=document.getElementById('pchoice');pc.innerHTML='';for(const t of ['Q','R','B','N']){const d=document.createElement('div');d.textContent=G[col+t];d.onclick=()=>{document.getElementById('promo').classList.remove('on');cb(t);};pc.appendChild(d);}document.getElementById('promo').classList.add('on');}
+const FILES='abcdefgh';
+function logMove(){const lm=history[history.length-1];const tr=lm[2],tc=lm[3];const p=board[tr][tc]||'';const nota=(p.length>1&&p[1]!=='P'?p[1]:'')+FILES[tc]+(8-tr);const col=p[0];const ml=document.getElementById('mlog');if(ml.textContent==='-')ml.innerHTML='';if(col==='w'){const n=Math.ceil(history.length/2);const d=document.createElement('div');d.id='mp'+n;d.innerHTML='<span style="color:#555">'+n+'.</span> <span class="mw">'+nota+'</span>';ml.appendChild(d);}else{const n2=Math.ceil(history.length/2);const ex=document.getElementById('mp'+n2);if(ex)ex.innerHTML+=' <span class="mb">'+nota+'</span>';}ml.scrollTop=ml.scrollHeight;}
+document.getElementById('btnUndo').addEventListener('click',()=>{if(busy||history.length===0)return;const steps=vsAI?2:1;for(let i=0;i<steps&&history.length>0;i++){const h=history.pop();board=JSON.parse(h[4]);castle=JSON.parse(h[5]);ep=h[6];const n=Math.ceil((history.length+1)/2);const d=document.getElementById('mp'+n);if(d)d.remove();}turn=history.length%2===0?'w':'b';over=false;busy=false;sel=null;legalSqs=[];setMsg('Turno del '+(turn==='w'?'Bianco '+G.wK:'Nero '+G.bK));draw();});
+function getLegal(b,r,c,col,cast,ep2){const pseudo=getPseudo(b,r,c,col,cast,ep2);const ok=[];for(const [tr,tc] of pseudo){const copy=cloneBoard(b);applySimple(copy,r,c,tr,tc,col,ep2);if(!inCheck(copy,col))ok.push([tr,tc]);}return ok;}
+function applySimple(b,fr,fc,tr,tc,col,ep2){const p=b[fr][fc];const typ=p?p[1]:'';if(typ==='K'){const row=col==='w'?7:0;if(fc===4&&tc===6){b[row][5]=b[row][7];b[row][7]=0;}if(fc===4&&tc===2){b[row][3]=b[row][0];b[row][0]=0;}}if(typ==='P'&&ep2&&tr===ep2[0]&&tc===ep2[1])b[col==='w'?tr+1:tr-1][tc]=0;b[tr][tc]=p;b[fr][fc]=0;if(typ==='P'&&(tr===0||tr===7))b[tr][tc]=col+'Q';}
+function getPseudo(b,r,c,col,cast,ep2){const p=b[r][c];if(!p||p===0)return[];const typ=p[1];const opp=col==='w'?'b':'w';const mv=[];function push(nr,nc){if(nr<0||nr>7||nc<0||nc>7)return false;if(b[nr][nc]&&b[nr][nc][0]===col)return false;mv.push([nr,nc]);return !b[nr][nc];}function ray(dirs){for(const [dr,dc] of dirs){let nr=r+dr,nc=c+dc;while(nr>=0&&nr<8&&nc>=0&&nc<8){if(b[nr][nc]){if(b[nr][nc][0]!==col)mv.push([nr,nc]);break;}mv.push([nr,nc]);nr+=dr;nc+=dc;}}}if(typ==='P'){const d=col==='w'?-1:1;const sr=col==='w'?6:1;const nr=r+d;if(nr>=0&&nr<8&&!b[nr][c]){mv.push([nr,c]);if(r===sr&&!b[r+2*d][c])mv.push([r+2*d,c]);}for(const [cr,cc] of [[r+d,c-1],[r+d,c+1]]){if(cr<0||cr>7||cc<0||cc>7)continue;if(b[cr][cc]&&b[cr][cc][0]===opp)mv.push([cr,cc]);if(ep2&&cr===ep2[0]&&cc===ep2[1])mv.push([cr,cc]);}}else if(typ==='N'){for(const [dr,dc] of [[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]])push(r+dr,c+dc);}else if(typ==='B')ray([[-1,-1],[-1,1],[1,-1],[1,1]]);else if(typ==='R')ray([[-1,0],[1,0],[0,-1],[0,1]]);else if(typ==='Q')ray([[-1,-1],[-1,1],[1,-1],[1,1],[-1,0],[1,0],[0,-1],[0,1]]);else if(typ==='K'){for(const [dr,dc] of [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]])push(r+dr,c+dc);const row=col==='w'?7:0;if(r===row&&c===4&&!inCheck(b,col)){if(cast[col+'K']&&!b[row][5]&&!b[row][6]){const t=cloneBoard(b);applySimple(t,row,4,row,5,col,ep2);if(!inCheck(t,col))mv.push([row,6]);}if(cast[col+'Q']&&!b[row][3]&&!b[row][2]&&!b[row][1]){const t=cloneBoard(b);applySimple(t,row,4,row,3,col,ep2);if(!inCheck(t,col))mv.push([row,2]);}}}return mv;}
+function attacksSquare(b,r,c,byColor){const pawnDir=byColor==='w'?-1:1;if(r+pawnDir>=0&&r+pawnDir<8){if(c-1>=0&&b[r+pawnDir][c-1]===byColor+'P')return true;if(c+1<8&&b[r+pawnDir][c+1]===byColor+'P')return true;}for(const [dr,dc] of [[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]]){const nr=r+dr,nc=c+dc;if(nr>=0&&nr<8&&nc>=0&&nc<8&&b[nr][nc]===byColor+'N')return true;}for(const [dr,dc] of [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]]){const nr=r+dr,nc=c+dc;if(nr>=0&&nr<8&&nc>=0&&nc<8&&b[nr][nc]===byColor+'K')return true;}const lines=[{dirs:[[-1,0],[1,0],[0,-1],[0,1]],types:['R','Q']},{dirs:[[-1,-1],[-1,1],[1,-1],[1,1]],types:['B','Q']}];for(const line of lines){for(const [dr,dc] of line.dirs){let nr=r+dr,nc=c+dc;while(nr>=0&&nr<8&&nc>=0&&nc<8){const piece=b[nr][nc];if(piece){if(piece[0]===byColor&&line.types.includes(piece[1]))return true;break;}nr+=dr;nc+=dc;}}}return false;}
+function findKing(b,col){for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(b[r][c]===col+'K')return[r,c];return null;}
+function inCheck(b,col){const kp=findKing(b,col);if(!kp)return false;const opp=col==='w'?'b':'w';return attacksSquare(b,kp[0],kp[1],opp);}
+function anyLegal(b,col){for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(b[r][c]&&b[r][c][0]===col&&getLegal(b,r,c,col,castle,ep).length>0)return true;return false;}
+function checkmate(b,col){return inCheck(b,col)&&!anyLegal(b,col);}
+function stalemate(b,col){return !inCheck(b,col)&&!anyLegal(b,col);}
+const PV={P:100,N:320,B:330,R:500,Q:900,K:20000};
+function evaluate(b){let s=0;for(let r=0;r<8;r++)for(let c=0;c<8;c++){const p=b[r][c];if(!p||p===0)continue;s+=p[0]==='b'?PV[p[1]]:-PV[p[1]];}return s;}
+function allMoves(b,col){const out=[];for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(b[r][c]&&b[r][c][0]===col){const mv=getLegal(b,r,c,col,castle,ep);for(const [tr,tc] of mv)out.push([r,c,tr,tc]);}return out;}
+function doAI(){const moves=allMoves(board,'b');if(!moves.length)return;let best=-Infinity,bestM=null;for(const m of moves){const copy=cloneBoard(board);applySimple(copy,m[0],m[1],m[2],m[3],'b',ep);let score=evaluate(copy);if(inCheck(copy,'w'))score+=50;if(checkmate(copy,'w'))score+=99999;const wm=allMoves(copy,'w');let minReply=0;for(let j=0;j<wm.length;j++){const m2=wm[j];const c2=cloneBoard(copy);applySimple(c2,m2[0],m2[1],m2[2],m2[3],'w',null);const rs=evaluate(c2);if(j===0||rs<minReply)minReply=rs;}score=score*0.5+minReply*0.5;if(score>best){best=score;bestM=m;}}if(bestM)execMove(bestM[0],bestM[1],bestM[2],bestM[3],false);}
+vsAI=true;
+document.getElementById('btnNew').addEventListener('click',newGame);
+document.getElementById('btnAI').addEventListener('click',()=>{vsAI=true;document.getElementById('btnAI').classList.remove('btn-outline');document.getElementById('btnHuman').classList.add('btn-outline');document.getElementById('lw').textContent='Bianco (Tu)';document.getElementById('lb').textContent='Nero (IA)';});
+document.getElementById('btnHuman').addEventListener('click',()=>{vsAI=false;document.getElementById('btnHuman').classList.remove('btn-outline');document.getElementById('btnAI').classList.add('btn-outline');document.getElementById('lw').textContent='Bianco';document.getElementById('lb').textContent='Nero';});
+newGame();
+</script>
+</body>
+</html>

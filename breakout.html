@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Breakout - GameZone</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">&#x1F3AE; GameZone</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="snake.html">Snake</a>
+      <a href="tris.html">Tris</a>
+      <a href="memory.html">Memory</a>
+      <a href="breakout.html" class="active">Breakout</a>
+      <a href="chess.html">&#x265F; Scacchi</a>
+    </nav>
+  </header>
+
+  <main class="game-page">
+    <h1>&#x1F9F1; <span>Breakout</span></h1>
+
+    <div class="score-bar" style="flex-wrap:wrap;justify-content:center;">
+      <div>Punti: <b id="score">0</b></div>
+      <div>Vite: <b id="lives">3</b></div>
+      <div>Livello: <b id="level">1</b></div>
+    </div>
+
+    <canvas id="game" width="480" height="400"></canvas>
+    <div class="hint" id="hint">Livello 1: velocita normale</div>
+    <button class="btn" id="startBtn">&#x25B6; Avvia / Rigioca</button>
+  </main>
+
+  <footer><p>&copy; 2026 GameZone</p></footer>
+
+  <script>
+    const canvas = document.getElementById('game');
+    const ctx = canvas.getContext('2d');
+    const scoreEl = document.getElementById('score');
+    const livesEl = document.getElementById('lives');
+    const levelEl = document.getElementById('level');
+    const hintEl = document.getElementById('hint');
+    const startBtn = document.getElementById('startBtn');
+
+    const W = canvas.width;
+    const H = canvas.height;
+    const BRICK_COLORS = ['#ff5d73', '#ff9f43', '#feca57', '#1dd1a1', '#54a0ff'];
+    const LEVELS = [
+      { name: 'Velocita normale', ballSpeed: 2.8, paddleSpeed: 7, balls: 1, invert: false, rowsFromBottom: false },
+      { name: 'Velocita alta', ballSpeed: 3.6, paddleSpeed: 8, balls: 1, invert: false, rowsFromBottom: false },
+      { name: 'Doppia pallina', ballSpeed: 3.2, paddleSpeed: 7, balls: 2, invert: false, rowsFromBottom: false },
+      { name: 'Tutto al contrario', ballSpeed: 3.4, paddleSpeed: 7, balls: 1, invert: true, rowsFromBottom: true }
+    ];
+
+    const paddle = { x: 200, y: 360, w: 80, h: 12, speed: 7 };
+    let balls, bricks, score, lives, running, timer, keys, levelIndex;
+
+    function makeBall(index, cfg) {
+      const baseDx = index === 0 ? 1 : -1;
+      const dy = cfg.invert ? 3 : -3;
+      return {
+        x: W / 2 + index * 12,
+        y: cfg.invert ? 60 : H - 60,
+        r: 7,
+        dx: baseDx * cfg.ballSpeed,
+        dy: dy,
+      };
+    }
+
+    function makeBalls(cfg) {
+      const out = [];
+      for (let i = 0; i < cfg.balls; i++) out.push(makeBall(i, cfg));
+      return out;
+    }
+
+    function makeBricks(cfg) {
+      const out = [];
+      for (let r = 0; r < 5; r++) {
+        for (let c = 0; c < 8; c++) {
+          out.push({
+            x: 20 + c * 55,
+            y: cfg.rowsFromBottom ? H - 40 - r * 22 : 40 + r * 22,
+            w: 50,
+            h: 16,
+            alive: true,
+            row: r
+          });
+        }
+      }
+      return out;
+    }
+
+    function setLevel(index) {
+      levelIndex = index;
+      const cfg = LEVELS[levelIndex];
+      paddle.speed = cfg.paddleSpeed;
+      paddle.y = cfg.invert ? 28 : 360;
+      paddle.x = 200;
+      balls = makeBalls(cfg);
+      bricks = makeBricks(cfg);
+      levelEl.textContent = levelIndex + 1;
+      hintEl.textContent = 'Livello ' + (levelIndex + 1) + ': ' + cfg.name;
+    }
+
+    function resetGame() {
+      score = 0;
+      lives = 3;
+      running = true;
+      keys = { left: false, right: false };
+      scoreEl.textContent = '0';
+      livesEl.textContent = '3';
+      setLevel(0);
+      draw();
+      clearInterval(timer);
+      timer = setInterval(loop, 16);
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+
+      const bg = ctx.createLinearGradient(0, 0, 0, H);
+      bg.addColorStop(0, '#0b1020');
+      bg.addColorStop(1, '#090d18');
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, W, H);
+
+      ctx.fillStyle = 'rgba(233, 69, 96, 0.35)';
+      ctx.fillRect(0, 0, W, 6);
+      ctx.fillStyle = 'rgba(15, 52, 96, 0.35)';
+      ctx.fillRect(0, 0, 6, H);
+      ctx.fillRect(W - 6, 0, 6, H);
+
+      bricks.forEach(b => {
+        if (!b.alive) return;
+        ctx.fillStyle = BRICK_COLORS[b.row % BRICK_COLORS.length];
+        ctx.fillRect(b.x, b.y, b.w, b.h);
+        ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+        ctx.strokeRect(b.x + 0.5, b.y + 0.5, b.w - 1, b.h - 1);
+      });
+
+      ctx.fillStyle = '#e94560';
+      ctx.fillRect(paddle.x, paddle.y, paddle.w, paddle.h);
+      ctx.fillStyle = 'rgba(255,255,255,0.15)';
+      ctx.fillRect(paddle.x, paddle.y, paddle.w, 2);
+
+      balls.forEach(ball => {
+        ctx.beginPath();
+        ctx.fillStyle = '#eaeaea';
+        ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    }
+
+    function hitRect(ball, rect) {
+      return ball.x + ball.r > rect.x &&
+        ball.x - ball.r < rect.x + rect.w &&
+        ball.y + ball.r > rect.y &&
+        ball.y - ball.r < rect.y + rect.h;
+    }
+
+    function bounceFromPaddle(ball, cfg) {
+      if (!hitRect(ball, paddle)) return false;
+      if (!cfg.invert && ball.dy <= 0) return false;
+      if (cfg.invert && ball.dy >= 0) return false;
+
+      ball.dy *= -1;
+      const hit = (ball.x - (paddle.x + paddle.w / 2)) / (paddle.w / 2);
+      ball.dx = hit * cfg.ballSpeed * 1.4;
+      return true;
+    }
+
+    function hitBrick(ball) {
+      for (const brick of bricks) {
+        if (!brick.alive || !hitRect(ball, brick)) continue;
+        brick.alive = false;
+        ball.dy *= -1;
+        score += 10;
+        scoreEl.textContent = score;
+        return true;
+      }
+      return false;
+    }
+
+    function respawnAfterLifeLoss() {
+      const cfg = LEVELS[levelIndex];
+      balls = makeBalls(cfg);
+      paddle.x = 200;
+    }
+
+    function nextLevel() {
+      if (levelIndex < LEVELS.length - 1) {
+        setLevel(levelIndex + 1);
+        draw();
+        return;
+      }
+      running = false;
+      clearInterval(timer);
+      alert('Hai vinto tutti i livelli!');
+    }
+
+    function loop() {
+      if (!running) return;
+      const cfg = LEVELS[levelIndex];
+
+      if (keys.left) paddle.x += cfg.invert ? paddle.speed : -paddle.speed;
+      if (keys.right) paddle.x += cfg.invert ? -paddle.speed : paddle.speed;
+      paddle.x = Math.max(0, Math.min(W - paddle.w, paddle.x));
+
+      for (let i = balls.length - 1; i >= 0; i--) {
+        const ball = balls[i];
+        ball.x += ball.dx;
+        ball.y += ball.dy;
+        let removed = false;
+
+        if (ball.x - ball.r <= 0 || ball.x + ball.r >= W) {
+          ball.dx *= -1;
+        }
+
+        if (!cfg.invert) {
+          if (ball.y - ball.r <= 0) ball.dy *= -1;
+          if (ball.y - ball.r > H) {
+            balls.splice(i, 1);
+            removed = true;
+          }
+        } else {
+          if (ball.y + ball.r >= H) ball.dy *= -1;
+          if (ball.y + ball.r < 0) {
+            balls.splice(i, 1);
+            removed = true;
+          }
+        }
+
+        if (removed) continue;
+        bounceFromPaddle(ball, cfg);
+        hitBrick(ball);
+      }
+
+      if (balls.length === 0) {
+        lives--;
+        livesEl.textContent = lives;
+        if (lives <= 0) {
+          running = false;
+          clearInterval(timer);
+          alert('Game over!');
+          return;
+        }
+        respawnAfterLifeLoss();
+      }
+
+      if (bricks.every(b => !b.alive)) {
+        nextLevel();
+        return;
+      }
+
+      draw();
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft') keys.left = true;
+      if (e.key === 'ArrowRight') keys.right = true;
+    });
+
+    document.addEventListener('keyup', e => {
+      if (e.key === 'ArrowLeft') keys.left = false;
+      if (e.key === 'ArrowRight') keys.right = false;
+    });
+
+    canvas.addEventListener('mousemove', e => {
+      const rect = canvas.getBoundingClientRect();
+      paddle.x = e.clientX - rect.left - paddle.w / 2;
+      paddle.x = Math.max(0, Math.min(W - paddle.w, paddle.x));
+    });
+
+    startBtn.addEventListener('click', resetGame);
+
+    resetGame();
+  </script>
+</body>
+</html>
