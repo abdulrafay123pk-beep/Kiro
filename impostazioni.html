@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html class="dark" lang="it">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NEON ARCADE - Impostazioni</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode:"class",
+  theme:{extend:{
+    colors:{
+      "on-surface":"#e4e1e7","tertiary":"#00dbe9","on-tertiary":"#00363a","tertiary-fixed":"#7df4ff",
+      "primary-container":"#bd00ff","outline-variant":"#514255","primary-fixed-dim":"#ecb2ff",
+      "surface-container-lowest":"#0e0e12","primary":"#ecb2ff","surface":"#131317",
+      "surface-container-low":"#1b1b1f","surface-container":"#1f1f23","secondary":"#ffb1c3",
+      "on-primary-container":"#ffffff","secondary-container":"#ff4b89","on-surface-variant":"#d4c0d7",
+      "on-primary":"#520071","inverse-surface":"#e4e1e7","tertiary-container":"#00838b",
+      "inverse-on-surface":"#303034","surface-variant":"#353439","surface-container-highest":"#353439",
+      "surface-container-high":"#2a292e","error-container":"#93000a","on-background":"#e4e1e7",
+      "on-secondary":"#66002c","outline":"#9d8ba0","on-tertiary-container":"#ffffff",
+      "inverse-primary":"#9900cf","background":"#131317","error":"#ffb4ab"
+    },
+    borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},
+    spacing:{"gutter":"24px","margin-desktop":"48px","margin-mobile":"16px","unit":"8px"},
+    fontFamily:{"headline-lg":["Sora"],"headline-md":["Sora"],"body-md":["Plus Jakarta Sans"],"headline-xl":["Sora"],"body-lg":["Plus Jakarta Sans"],"label-sm":["JetBrains Mono"]},
+    fontSize:{
+      "headline-lg":["40px",{"lineHeight":"1.2","letterSpacing":"-0.01em","fontWeight":"700"}],
+      "headline-md":["24px",{"lineHeight":"1.3","fontWeight":"600"}],
+      "body-md":["16px",{"lineHeight":"1.6","fontWeight":"400"}],
+      "body-lg":["18px",{"lineHeight":"1.6","fontWeight":"400"}],
+      "label-sm":["12px",{"lineHeight":"1.0","letterSpacing":"0.05em","fontWeight":"500"}]
+    }
+  }}
+}
+</script>
+<style>
+.neon-glow{box-shadow:0 0 20px rgba(189,0,255,.3);transition:box-shadow .3s,border-color .3s}
+.neon-glow:hover{box-shadow:0 0 40px rgba(189,0,255,.6);border-color:#ffb1c3}
+.toggle{position:relative;width:44px;height:24px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:#353439;border-radius:24px;cursor:pointer;transition:.3s}
+.slider:before{content:"";position:absolute;width:18px;height:18px;left:3px;bottom:3px;background:#9d8ba0;border-radius:50%;transition:.3s}
+input:checked+.slider{background:#bd00ff}
+input:checked+.slider:before{transform:translateX(20px);background:#fff}
+.section-card{background:rgba(42,41,46,.6);border:1px solid rgba(81,66,85,.4);border-radius:.5rem;overflow:hidden;margin-bottom:1.5rem}
+.section-row{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1px solid rgba(81,66,85,.25)}
+.section-row:last-child{border-bottom:none}
+</style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex antialiased">
+
+<!-- Sidebar -->
+<nav class="hidden md:flex bg-surface fixed left-0 top-0 h-full w-64 border-r border-primary/20 backdrop-blur-xl shadow-[4px_0_24px_rgba(189,0,255,0.1)] flex-col py-gutter px-4 z-40">
+  <div class="mb-8 flex items-center space-x-4">
+    <div class="w-12 h-12 rounded-full bg-surface-container overflow-hidden border border-primary/30">
+      <img alt="Avatar" class="w-full h-full object-cover profile-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnm6UwO9wIQYn2GtsfjqCtdfsw7QkFdUmJTaO7cxLUFkYKn42LjErrbOEkg6uaRzeAZNvu35IN4xlZc2Xf1lI-iXHXxb3BgYS4AoJjy_HgnpxGHoI3Kq6JPWoyh_WOhrTVhlld8zP0c7yohwP226dxKRQsDJXtIy8xlqY-QaMwSYlHNnHW7BqcFxC4W7VgyIhi0R0zJYPKf6H1b11JyOk90g_7NrK1CRvdT72nIw7bg4880WyfSoEu"/>
+    </div>
+    <div>
+      <h1 class="font-headline-md text-headline-md font-bold text-tertiary drop-shadow-[0_0_8px_rgba(0,219,233,0.5)]">NEON ARCADE</h1>
+      <p class="font-label-sm text-label-sm text-on-surface-variant">Player 1</p>
+    </div>
+  </div>
+  <div class="flex-1 space-y-2">
+    <a class="flex items-center space-x-3 p-3 rounded-DEFAULT text-on-surface-variant hover:text-primary/80 transition-colors hover:bg-surface-variant/50" href="index.html">
+      <span class="material-symbols-outlined">home</span><span data-i18n="nav_home">Home</span>
+    </a>
+    <a class="flex items-center space-x-3 p-3 rounded-DEFAULT text-on-surface-variant hover:text-primary/80 transition-colors hover:bg-surface-variant/50" href="libreria.html">
+      <span class="material-symbols-outlined">library_books</span><span data-i18n="nav_games">Giochi</span>
+    </a>
+    <a class="flex items-center space-x-3 p-3 rounded-DEFAULT text-on-surface-variant hover:text-primary/80 transition-colors hover:bg-surface-variant/50" href="#">
+      <span class="material-symbols-outlined">shopping_bag</span><span data-i18n="nav_shop">Negozio</span>
+    </a>
+    <a class="flex items-center space-x-3 p-3 rounded-DEFAULT text-on-surface-variant hover:text-primary/80 transition-colors hover:bg-surface-variant/50" href="profilo.html">
+      <span class="material-symbols-outlined">person</span><span data-i18n="nav_profile">Profilo</span>
+    </a>
+  </div>
+  <button class="mb-8 w-full py-3 px-4 bg-primary-container text-on-primary-container font-label-sm text-label-sm rounded-lg flex items-center justify-center space-x-2 neon-glow">
+    <span class="material-symbols-outlined">account_balance_wallet</span><span data-i18n="nav_addfunds">Aggiungi Fondi</span>
+  </button>
+  <div class="space-y-2 mt-auto border-t border-outline-variant/30 pt-4">
+    <a class="flex items-center space-x-3 p-3 rounded-DEFAULT text-primary border-r-4 border-primary bg-primary/10 scale-[1.02]" href="impostazioni.html">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">settings</span><span data-i18n="nav_settings">Impostazioni</span>
+    </a>
+    <a class="flex items-center space-x-3 p-3 rounded-DEFAULT text-on-surface-variant hover:text-primary/80 transition-colors hover:bg-surface-variant/50" href="#">
+      <span class="material-symbols-outlined">help</span><span data-i18n="nav_support">Supporto</span>
+    </a>
+  </div>
+</nav>
+
+<!-- Main -->
+<div class="flex-1 md:ml-64 flex flex-col min-h-screen">
+  <header class="bg-surface/80 fixed top-0 right-0 w-full md:w-[calc(100%-16rem)] z-50 border-b border-tertiary/20 backdrop-blur-md flex justify-between items-center h-16 px-gutter">
+    <button class="md:hidden text-on-surface-variant"><span class="material-symbols-outlined">menu</span></button>
+    <div class="flex-1"></div>
+    <div class="flex items-center space-x-4">
+      <button class="text-on-surface-variant hover:text-tertiary transition-colors cursor-pointer" aria-label="Notifiche"><span class="material-symbols-outlined">notifications</span></button>
+    </div>
+  </header>
+
+  <main class="flex-1 p-margin-mobile md:p-margin-desktop mt-16 pb-24">
+
+    <h2 class="font-headline-lg text-headline-md md:text-headline-lg text-on-surface flex items-center space-x-3 mb-8">
+      <span class="material-symbols-outlined text-primary drop-shadow-[0_0_8px_rgba(236,178,255,.6)]">settings</span>
+      <span data-i18n="set_title">Impostazioni</span>
+    </h2>
+
+    <!-- Account -->
+    <p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-3" data-i18n="set_sec_account">Account</p>
+    <div class="section-card">
+      <div class="section-row">
+        <div>
+          <div class="font-body-md text-on-surface" data-i18n="set_username">Nome utente</div>
+          <div class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">Player 1</div>
+        </div>
+        <button onclick="editField('set_username','Player 1')" class="font-label-sm text-label-sm text-primary hover:text-primary/70 transition-colors flex items-center gap-1">
+          <span class="material-symbols-outlined text-sm">edit</span><span data-i18n="set_edit">Modifica</span>
+        </button>
+      </div>
+      <div class="section-row">
+        <div>
+          <div class="font-body-md text-on-surface" data-i18n="set_email">Email</div>
+          <div class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">player1@neonarcade.it</div>
+        </div>
+        <button onclick="editField('set_email','player1@neonarcade.it')" class="font-label-sm text-label-sm text-primary hover:text-primary/70 transition-colors flex items-center gap-1">
+          <span class="material-symbols-outlined text-sm">edit</span><span data-i18n="set_edit">Modifica</span>
+        </button>
+      </div>
+      <div class="section-row">
+        <div>
+          <div class="font-body-md text-on-surface" data-i18n="set_password">Password</div>
+          <div class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">••••••••</div>
+        </div>
+        <button onclick="editField('set_password','')" class="font-label-sm text-label-sm text-primary hover:text-primary/70 transition-colors flex items-center gap-1">
+          <span class="material-symbols-outlined text-sm">edit</span><span data-i18n="set_edit">Modifica</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Notifiche -->
+    <p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-3" data-i18n="set_sec_notif">Notifiche</p>
+    <div class="section-card">
+      <div class="section-row">
+        <div>
+          <div class="font-body-md text-on-surface" data-i18n="set_push">Notifiche push</div>
+          <div class="font-label-sm text-label-sm text-on-surface-variant mt-0.5" data-i18n="set_push_sub">Ricevi avvisi di gioco</div>
+        </div>
+        <label class="toggle"><input type="checkbox" checked id="tog1" onchange="saveToggle('notifiche_push',this.checked)"><span class="slider"></span></label>
+      </div>
+      <div class="section-row">
+        <div>
+          <div class="font-body-md text-on-surface" data-i18n="set_email_promo">Email promozionali</div>
+          <div class="font-label-sm text-label-sm text-on-surface-variant mt-0.5" data-i18n="set_email_promo_sub">Offerte e novità</div>
+        </div>
+        <label class="toggle"><input type="checkbox" id="tog2" onchange="saveToggle('email_promo',this.checked)"><span class="slider"></span></label>
+      </div>
+      <div class="section-row">
+        <div>
+          <div class="font-body-md text-on-surface" data-i18n="set_sounds">Suoni di gioco</div>
+          <div class="font-label-sm text-label-sm text-on-surface-variant mt-0.5" data-i18n="set_sounds_sub">Effetti sonori e musica</div>
+        </div>
+        <label class="toggle"><input type="checkbox" checked id="tog3" onchange="saveToggle('suoni',this.checked)"><span class="slider"></span></label>
+      </div>
+    </div>
+
+    <!-- Aspetto -->
+    <p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-3" data-i18n="set_sec_appearance">Aspetto</p>
+    <div class="section-card">
+      <div class="section-row">
+        <div>
+          <div class="font-body-md text-on-surface" data-i18n="set_theme">Tema</div>
+          <div class="font-label-sm text-label-sm text-on-surface-variant mt-0.5" data-i18n="set_theme_sub">Modalità scura attiva</div>
+        </div>
+        <label class="toggle"><input type="checkbox" checked id="tog4"><span class="slider"></span></label>
+      </div>
+      <div class="section-row">
+        <div>
+          <div class="font-body-md text-on-surface" data-i18n="set_lang">Lingua</div>
+        </div>
+        <select id="langSelect" onchange="changeLang(this.value)" class="bg-surface-container-high border border-outline-variant/50 text-on-surface font-label-sm text-label-sm rounded-lg px-3 py-1.5 focus:outline-none focus:border-primary/50">
+          <option value="it">🇮🇹 Italiano</option>
+          <option value="en">🇬🇧 English</option>
+          <option value="es">🇪🇸 Español</option>
+          <option value="fr">🇫🇷 Français</option>
+          <option value="de">🇩🇪 Deutsch</option>
+          <option value="pt">🇧🇷 Português</option>
+          <option value="ja">🇯🇵 日本語</option>
+          <option value="zh">🇨🇳 中文</option>
+          <option value="ar">🇸🇦 العربية</option>
+          <option value="ru">🇷🇺 Русский</option>
+          <option value="ko">🇰🇷 한국어</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Privacy -->
+    <p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-3" data-i18n="set_sec_privacy">Privacy e Sicurezza</p>
+    <div class="section-card">
+      <div class="section-row">
+        <div>
+          <div class="font-body-md text-on-surface" data-i18n="set_pub_profile">Profilo pubblico</div>
+          <div class="font-label-sm text-label-sm text-on-surface-variant mt-0.5" data-i18n="set_pub_profile_sub">Visibile ad altri giocatori</div>
+        </div>
+        <label class="toggle"><input type="checkbox" id="tog5" onchange="saveToggle('profilo_pub',this.checked)"><span class="slider"></span></label>
+      </div>
+      <div class="section-row">
+        <div>
+          <div class="font-body-md text-on-surface" data-i18n="set_2fa">Autenticazione a due fattori</div>
+          <div class="font-label-sm text-label-sm text-on-surface-variant mt-0.5" data-i18n="set_2fa_sub">Sicurezza extra per il tuo account</div>
+        </div>
+        <button class="font-label-sm text-label-sm border border-tertiary/50 text-tertiary px-4 py-1.5 rounded-lg hover:bg-tertiary/10 transition-colors" data-i18n="set_2fa_btn">Attiva</button>
+      </div>
+      <div class="section-row">
+        <div>
+          <div class="font-body-md text-on-surface" data-i18n="set_delete">Elimina account</div>
+          <div class="font-label-sm text-label-sm text-on-surface-variant mt-0.5" data-i18n="set_delete_sub">Rimuove tutti i dati</div>
+        </div>
+        <button onclick="confirmDelete()" class="font-label-sm text-label-sm border border-error/50 text-error px-4 py-1.5 rounded-lg hover:bg-error/10 transition-colors" data-i18n="set_delete_btn">Elimina</button>
+      </div>
+    </div>
+
+    <!-- Salva -->
+    <button onclick="saveAll()" class="bg-primary-container text-on-primary-container font-label-sm text-label-sm py-3 px-8 rounded-lg neon-glow flex items-center space-x-2">
+      <span class="material-symbols-outlined text-sm">save</span><span data-i18n="set_save">Salva modifiche</span>
+    </button>
+
+  </main>
+
+  <footer class="bg-surface-container-lowest text-on-surface-variant font-label-sm text-label-sm w-full mt-auto border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-center py-8 px-gutter">
+    <div class="uppercase tracking-widest text-secondary mb-4 md:mb-0">© 2026 NEON ARCADE</div>
+    <div class="flex space-x-6">
+      <a class="hover:text-secondary transition-colors" href="#">Privacy</a>
+      <a class="hover:text-secondary transition-colors" href="#">Termini</a>
+    </div>
+  </footer>
+</div>
+
+<!-- Modal edit -->
+<div id="editModal" class="hidden fixed inset-0 bg-black/75 z-50 flex items-center justify-center">
+  <div class="bg-surface-container border border-primary/30 rounded-xl p-6 w-80 shadow-[0_0_30px_rgba(189,0,255,.3)]">
+    <h3 class="font-headline-md text-headline-md text-on-surface mb-4" id="modalTitle">Modifica</h3>
+    <input id="modalInput" type="text" class="w-full bg-surface-container-high border border-outline-variant/50 focus:border-primary/60 text-on-surface font-body-md px-4 py-2.5 rounded-lg focus:outline-none mb-4"/>
+    <div class="flex gap-3 justify-end">
+      <button onclick="closeModal()" class="font-label-sm text-label-sm border border-outline-variant/50 text-on-surface-variant px-4 py-2 rounded-lg hover:border-primary/40 hover:text-primary transition-colors" data-i18n="set_modal_cancel">Annulla</button>
+      <button onclick="saveModal()" class="bg-primary-container text-on-primary-container font-label-sm text-label-sm px-5 py-2 rounded-lg neon-glow" data-i18n="set_modal_save">Salva</button>
+    </div>
+  </div>
+</div>
+
+<script src="i18n.js"></script>
+<script src="avatars.js"></script>
+<script>
+// ── Init lingua ───────────────────────────────────────────────
+var sel = document.getElementById('langSelect');
+sel.value = getLang();
+
+// ── Cambio lingua in tempo reale ──────────────────────────────
+function changeLang(lang) {
+  setLang(lang);
+  applyTranslations();
+  showToast(t('set_lang_changed'));
+}
+
+// ── Toggle state from localStorage ───────────────────────────
+[['tog1','notifiche_push'],['tog2','email_promo'],['tog3','suoni'],['tog5','profilo_pub']].forEach(function(pair){
+  var v = localStorage.getItem('setting_'+pair[1]);
+  var el = document.getElementById(pair[0]);
+  if (el && v !== null) el.checked = v === 'true';
+});
+
+function saveToggle(key, val) {
+  localStorage.setItem('setting_'+key, val);
+}
+
+var editFieldKey = '';
+
+function editField(labelKey, current) {
+  editFieldKey = labelKey;
+  document.getElementById('modalTitle').textContent = t('set_modal_edit') + ' ' + t(labelKey);
+  document.getElementById('modalInput').value = current;
+  document.getElementById('modalInput').type = (labelKey === 'set_password') ? 'password' : 'text';
+  document.getElementById('editModal').classList.remove('hidden');
+}
+function closeModal() { document.getElementById('editModal').classList.add('hidden'); }
+function saveModal() {
+  var val = document.getElementById('modalInput').value.trim();
+  if (!val && editFieldKey !== 'set_password') { showToast('Inserisci un valore valido', true); return; }
+  
+  if (editFieldKey === 'set_username') {
+    localStorage.setItem('neon_username', val || 'Player 1');
+    document.querySelector('.section-row:first-child .font-label-sm').textContent = val || 'Player 1';
+  } else if (editFieldKey === 'set_email') {
+    localStorage.setItem('neon_email', val || 'player1@neonarcade.it');
+    document.querySelectorAll('.section-row')[1].querySelector('.font-label-sm').textContent = val || 'player1@neonarcade.it';
+  } else if (editFieldKey === 'set_password') {
+    if (val.length < 6 && val.length > 0) { showToast('La password deve avere almeno 6 caratteri', true); return; }
+    localStorage.setItem('neon_password', val || '');
+    showToast(val ? 'Password aggiornata!' : 'Password rimossa');
+  }
+  closeModal();
+  showToast(t('set_toast_saved'));
+}
+
+function confirmDelete() {
+  if (confirm(t('set_confirm_delete'))) showToast(t('set_deleted'));
+}
+function saveAll() { showToast(t('set_toast_settings')); }
+
+function showToast(msg) {
+  var existing = document.getElementById('neon-toast');
+  if (existing) existing.remove();
+  var toast = document.createElement('div');
+  toast.id = 'neon-toast';
+  toast.textContent = msg;
+  toast.style.cssText = 'position:fixed;bottom:2rem;right:2rem;background:#bd00ff;color:#fff;font-size:12px;font-family:"JetBrains Mono",monospace;padding:.75rem 1.25rem;border-radius:.5rem;z-index:9999;box-shadow:0 0 20px rgba(189,0,255,.5);transition:opacity .4s;opacity:1';
+  document.body.appendChild(toast);
+  setTimeout(function(){ toast.style.opacity='0'; setTimeout(function(){ toast.remove(); }, 400); }, 2200);
+}
+</script>
+</body>
+</html>

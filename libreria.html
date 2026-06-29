@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html class="dark" lang="it">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NEON ARCADE - Giochi</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode:"class",
+  theme:{extend:{
+    colors:{
+      "on-primary-fixed-variant":"#74009f","on-surface":"#e4e1e7","tertiary-fixed-dim":"#00dbe9",
+      "primary-fixed":"#f8d8ff","inverse-primary":"#9900cf","on-secondary-fixed-variant":"#8f0041",
+      "surface":"#131317","surface-container-low":"#1b1b1f","on-error":"#690005","surface-dim":"#131317",
+      "tertiary":"#00dbe9","on-tertiary":"#00363a","tertiary-fixed":"#7df4ff","primary-container":"#bd00ff",
+      "surface-bright":"#39393d","outline-variant":"#514255","primary-fixed-dim":"#ecb2ff",
+      "surface-container-lowest":"#0e0e12","primary":"#ecb2ff","error":"#ffb4ab","on-tertiary-fixed":"#002022",
+      "surface-tint":"#ecb2ff","surface-container":"#1f1f23","secondary-fixed-dim":"#ffb1c3",
+      "secondary":"#ffb1c3","on-primary-container":"#ffffff","on-primary-fixed":"#320047",
+      "secondary-container":"#ff4b89","on-surface-variant":"#d4c0d7","secondary-fixed":"#ffd9e0",
+      "on-primary":"#520071","inverse-surface":"#e4e1e7","tertiary-container":"#00838b",
+      "on-secondary-container":"#590026","inverse-on-surface":"#303034","surface-variant":"#353439",
+      "surface-container-highest":"#353439","surface-container-high":"#2a292e","error-container":"#93000a",
+      "on-background":"#e4e1e7","on-tertiary-fixed-variant":"#004f54","on-secondary":"#66002c",
+      "outline":"#9d8ba0","on-error-container":"#ffdad6","on-tertiary-container":"#ffffff",
+      "on-secondary-fixed":"#3f0019","background":"#131317"
+    },
+    borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},
+    spacing:{"gutter":"24px","margin-desktop":"48px","margin-mobile":"16px","unit":"8px","container-max":"1280px"},
+    fontFamily:{"headline-lg-mobile":["Sora"],"headline-lg":["Sora"],"headline-md":["Sora"],
+      "body-md":["Plus Jakarta Sans"],"headline-xl":["Sora"],"body-lg":["Plus Jakarta Sans"],"label-sm":["JetBrains Mono"]},
+    fontSize:{
+      "headline-lg-mobile":["32px",{"lineHeight":"1.2","fontWeight":"700"}],
+      "headline-lg":["40px",{"lineHeight":"1.2","letterSpacing":"-0.01em","fontWeight":"700"}],
+      "headline-md":["24px",{"lineHeight":"1.3","fontWeight":"600"}],
+      "body-md":["16px",{"lineHeight":"1.6","fontWeight":"400"}],
+      "headline-xl":["64px",{"lineHeight":"1.1","letterSpacing":"-0.02em","fontWeight":"800"}],
+      "body-lg":["18px",{"lineHeight":"1.6","fontWeight":"400"}],
+      "label-sm":["12px",{"lineHeight":"1.0","letterSpacing":"0.05em","fontWeight":"500"}]
+    }
+  }}
+}
+</script>
+<style>
+.neon-glow{box-shadow:0 0 20px rgba(189,0,255,.3);transition:box-shadow .3s,border-color .3s}
+.neon-glow:hover{box-shadow:0 0 40px rgba(189,0,255,.6);border-color:#ffb1c3}
+</style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex antialiased">
+
+<!-- Sidebar -->
+<nav class="hidden md:flex bg-surface fixed left-0 top-0 h-full w-64 border-r border-primary/20 backdrop-blur-xl shadow-[4px_0_24px_rgba(189,0,255,0.1)] flex-col py-gutter px-4 z-40">
+  <div class="mb-8 flex items-center space-x-4">
+    <div class="w-12 h-12 rounded-full bg-surface-container overflow-hidden border border-primary/30">
+      <img alt="Avatar" class="w-full h-full object-cover profile-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnm6UwO9wIQYn2GtsfjqCtdfsw7QkFdUmJTaO7cxLUFkYKn42LjErrbOEkg6uaRzeAZNvu35IN4xlZc2Xf1lI-iXHXxb3BgYS4AoJjy_HgnpxGHoI3Kq6JPWoyh_WOhrTVhlld8zP0c7yohwP226dxKRQsDJXtIy8xlqY-QaMwSYlHNnHW7BqcFxC4W7VgyIhi0R0zJYPKf6H1b11JyOk90g_7NrK1CRvdT72nIw7bg4880WyfSoEu"/>
+    </div>
+    <div>
+      <h1 class="font-headline-md text-headline-md font-bold text-tertiary drop-shadow-[0_0_8px_rgba(0,219,233,0.5)]">NEON ARCADE</h1>
+      <p class="font-label-sm text-label-sm text-on-surface-variant">Player 1</p>
+    </div>
+  </div>
+  <div class="flex-1 space-y-2">
+    <a class="flex items-center space-x-3 p-3 rounded-DEFAULT text-on-surface-variant hover:text-primary/80 transition-colors hover:bg-surface-variant/50" href="index.html">
+      <span class="material-symbols-outlined">home</span><span>Home</span>
+    </a>
+    <a class="flex items-center space-x-3 p-3 rounded-DEFAULT text-primary border-r-4 border-primary bg-primary/10 scale-[1.02]" href="libreria.html">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">library_books</span><span>Giochi</span>
+    </a>
+    <a class="flex items-center space-x-3 p-3 rounded-DEFAULT text-on-surface-variant hover:text-primary/80 transition-colors hover:bg-surface-variant/50" href="#">
+      <span class="material-symbols-outlined">shopping_bag</span><span>Negozio</span>
+    </a>
+    <a class="flex items-center space-x-3 p-3 rounded-DEFAULT text-on-surface-variant hover:text-primary/80 transition-colors hover:bg-surface-variant/50" href="profilo.html">
+      <span class="material-symbols-outlined">person</span><span>Profilo</span>
+    </a>
+  </div>
+  <button class="mb-8 w-full py-3 px-4 bg-primary-container text-on-primary-container font-label-sm text-label-sm rounded-lg flex items-center justify-center space-x-2 neon-glow">
+    <span class="material-symbols-outlined">account_balance_wallet</span><span>Aggiungi Fondi</span>
+  </button>
+  <div class="space-y-2 mt-auto border-t border-outline-variant/30 pt-4">
+    <a class="flex items-center space-x-3 p-3 rounded-DEFAULT text-on-surface-variant hover:text-primary/80 transition-colors hover:bg-surface-variant/50" href="impostazioni.html">
+      <span class="material-symbols-outlined">settings</span><span>Impostazioni</span>
+    </a>
+  </div>
+</nav>
+
+<!-- Main -->
+<div class="flex-1 md:ml-64 flex flex-col min-h-screen">
+  <!-- Topbar -->
+  <header class="bg-surface/80 fixed top-0 right-0 w-full md:w-[calc(100%-16rem)] z-50 border-b border-tertiary/20 backdrop-blur-md flex justify-between items-center h-16 px-gutter">
+    <button class="md:hidden text-on-surface-variant"><span class="material-symbols-outlined">menu</span></button>
+    <div class="flex-1 flex justify-end mr-6">
+      <div class="relative w-64">
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+        <input class="w-full bg-surface-container-high border-b border-outline-variant/50 focus:border-tertiary text-on-surface pl-10 pr-4 py-2 rounded-full focus:outline-none placeholder:text-on-surface-variant/50" placeholder="Cerca nella libreria..." type="text" id="searchInput" oninput="filterGames()"/>
+      </div>
+    </div>
+    <div class="flex items-center space-x-4">
+      <button class="text-on-surface-variant hover:text-tertiary transition-colors"><span class="material-symbols-outlined">notifications</span></button>
+      <button onclick="window.location.href='impostazioni.html'" class="text-on-surface-variant hover:text-tertiary transition-colors cursor-pointer" aria-label="Apri impostazioni"><span class="material-symbols-outlined">settings</span></button>
+    </div>
+  </header>
+
+  <main class="flex-1 p-margin-mobile md:p-margin-desktop mt-16 pb-24">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-8">
+      <h2 class="font-headline-lg text-headline-md md:text-headline-lg text-on-surface flex items-center space-x-3">
+        <span class="material-symbols-outlined text-primary drop-shadow-[0_0_8px_rgba(236,178,255,0.6)]">library_books</span>
+        <span>I miei Giochi</span>
+      </h2>
+      <span class="font-label-sm text-label-sm text-on-surface-variant" id="gameCount">6 giochi</span>
+    </div>
+
+    <!-- Filtri -->
+    <div class="flex flex-wrap gap-2 mb-8" id="filters">
+      <button onclick="filterByTag('tutti')" class="filter-btn active-filter font-label-sm text-label-sm px-4 py-2 rounded-full border border-primary/40 text-primary bg-primary/10">Tutti</button>
+      <button onclick="filterByTag('arcade')" class="filter-btn font-label-sm text-label-sm px-4 py-2 rounded-full border border-outline-variant/50 text-on-surface-variant hover:border-primary/40 hover:text-primary">Arcade</button>
+      <button onclick="filterByTag('puzzle')" class="filter-btn font-label-sm text-label-sm px-4 py-2 rounded-full border border-outline-variant/50 text-on-surface-variant hover:border-primary/40 hover:text-primary">Puzzle</button>
+      <button onclick="filterByTag('strategia')" class="filter-btn font-label-sm text-label-sm px-4 py-2 rounded-full border border-outline-variant/50 text-on-surface-variant hover:border-primary/40 hover:text-primary">Strategia</button>
+      <button onclick="filterByTag('azione')" class="filter-btn font-label-sm text-label-sm px-4 py-2 rounded-full border border-outline-variant/50 text-on-surface-variant hover:border-primary/40 hover:text-primary">Azione</button>
+    </div>
+
+    <!-- Griglia giochi -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="gameGrid">
+
+      <div class="game-card bg-surface-container-high/80 rounded-xl overflow-hidden border border-primary/20 hover:border-secondary transition-all duration-300 group cursor-pointer hover:shadow-[0_0_30px_rgba(189,0,255,0.2)]" data-tag="arcade" data-name="snake">
+        <div class="h-40 relative overflow-hidden flex items-center justify-center bg-gradient-to-br from-green-900/40 to-surface-container-lowest text-7xl group-hover:scale-110 transition-transform duration-500">🐍</div>
+        <div class="p-4">
+          <h4 class="font-headline-md text-headline-md text-tertiary mb-1">Snake</h4>
+          <p class="font-label-sm text-label-sm text-on-surface-variant mb-3">Arcade Classico</p>
+          <div class="flex justify-between items-center">
+            <span class="font-label-sm text-label-sm bg-primary/20 text-primary px-2 py-1 rounded">Arcade</span>
+            <a href="snake.html" class="bg-primary-container text-on-primary-container font-label-sm text-label-sm py-1.5 px-4 rounded-lg flex items-center space-x-1 neon-glow hover:bg-inverse-primary transition-colors">
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL' 1">play_arrow</span><span>Gioca</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="game-card bg-surface-container-high/80 rounded-xl overflow-hidden border border-primary/20 hover:border-secondary transition-all duration-300 group cursor-pointer hover:shadow-[0_0_30px_rgba(189,0,255,0.2)]" data-tag="strategia" data-name="tris">
+        <div class="h-40 relative overflow-hidden flex items-center justify-center bg-gradient-to-br from-purple-900/40 to-surface-container-lowest text-7xl group-hover:scale-110 transition-transform duration-500">⭕</div>
+        <div class="p-4">
+          <h4 class="font-headline-md text-headline-md text-tertiary mb-1">Tris</h4>
+          <p class="font-label-sm text-label-sm text-on-surface-variant mb-3">2 Giocatori / vs CPU</p>
+          <div class="flex justify-between items-center">
+            <span class="font-label-sm text-label-sm bg-secondary/20 text-secondary px-2 py-1 rounded">Strategia</span>
+            <a href="tris.html" class="bg-primary-container text-on-primary-container font-label-sm text-label-sm py-1.5 px-4 rounded-lg flex items-center space-x-1 neon-glow hover:bg-inverse-primary transition-colors">
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL' 1">play_arrow</span><span>Gioca</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="game-card bg-surface-container-high/80 rounded-xl overflow-hidden border border-primary/20 hover:border-secondary transition-all duration-300 group cursor-pointer hover:shadow-[0_0_30px_rgba(189,0,255,0.2)]" data-tag="puzzle" data-name="memory">
+        <div class="h-40 relative overflow-hidden flex items-center justify-center bg-gradient-to-br from-blue-900/40 to-surface-container-lowest text-7xl group-hover:scale-110 transition-transform duration-500">🃏</div>
+        <div class="p-4">
+          <h4 class="font-headline-md text-headline-md text-tertiary mb-1">Memory</h4>
+          <p class="font-label-sm text-label-sm text-on-surface-variant mb-3">Puzzle — Trova le coppie</p>
+          <div class="flex justify-between items-center">
+            <span class="font-label-sm text-label-sm bg-tertiary/20 text-tertiary px-2 py-1 rounded">Puzzle</span>
+            <a href="memory.html" class="bg-primary-container text-on-primary-container font-label-sm text-label-sm py-1.5 px-4 rounded-lg flex items-center space-x-1 neon-glow hover:bg-inverse-primary transition-colors">
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL' 1">play_arrow</span><span>Gioca</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="game-card bg-surface-container-high/80 rounded-xl overflow-hidden border border-primary/20 hover:border-secondary transition-all duration-300 group cursor-pointer hover:shadow-[0_0_30px_rgba(189,0,255,0.2)]" data-tag="azione" data-name="breakout">
+        <div class="h-40 relative overflow-hidden flex items-center justify-center bg-gradient-to-br from-orange-900/40 to-surface-container-lowest text-7xl group-hover:scale-110 transition-transform duration-500">🧱</div>
+        <div class="p-4">
+          <h4 class="font-headline-md text-headline-md text-tertiary mb-1">Breakout</h4>
+          <p class="font-label-sm text-label-sm text-on-surface-variant mb-3">Azione — Distruggi i mattoni</p>
+          <div class="flex justify-between items-center">
+            <span class="font-label-sm text-label-sm bg-primary/20 text-primary px-2 py-1 rounded">Azione</span>
+            <a href="breakout.html" class="bg-primary-container text-on-primary-container font-label-sm text-label-sm py-1.5 px-4 rounded-lg flex items-center space-x-1 neon-glow hover:bg-inverse-primary transition-colors">
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL' 1">play_arrow</span><span>Gioca</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="game-card bg-surface-container-high/80 rounded-xl overflow-hidden border border-primary/20 hover:border-secondary transition-all duration-300 group cursor-pointer hover:shadow-[0_0_30px_rgba(189,0,255,0.2)]" data-tag="strategia" data-name="scacchi">
+        <div class="h-40 relative overflow-hidden flex items-center justify-center bg-gradient-to-br from-yellow-900/40 to-surface-container-lowest text-7xl group-hover:scale-110 transition-transform duration-500">♟️</div>
+        <div class="p-4">
+          <h4 class="font-headline-md text-headline-md text-tertiary mb-1">Scacchi</h4>
+          <p class="font-label-sm text-label-sm text-on-surface-variant mb-3">Strategia — vs IA o 2P</p>
+          <div class="flex justify-between items-center">
+            <span class="font-label-sm text-label-sm bg-secondary/20 text-secondary px-2 py-1 rounded">Strategia</span>
+            <a href="chess.html" class="bg-primary-container text-on-primary-container font-label-sm text-label-sm py-1.5 px-4 rounded-lg flex items-center space-x-1 neon-glow hover:bg-inverse-primary transition-colors">
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL' 1">play_arrow</span><span>Gioca</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="game-card bg-surface-container-high/80 rounded-xl overflow-hidden border border-primary/20 hover:border-secondary transition-all duration-300 group cursor-pointer hover:shadow-[0_0_30px_rgba(189,0,255,0.2)]" data-tag="arcade" data-name="galactic">
+        <div class="h-40 relative overflow-hidden bg-cover bg-center group-hover:scale-110 transition-transform duration-500" style="background-image:url('https://lh3.googleusercontent.com/aida-public/AB6AXuCPzkxC0HdxmAeue-a1JnNqXBwdKymBFaN1EEzRduW0-r4Wzh-s9pjAj16rXTao1XB9graceVNDgWpA60FCp38DLxi5U8dXJ3HKnfGDYNmCOHaL_GZwgaTVgCoe7FX-IYptrSSU_Loq04KJTyrwIX2A8NkgIW1-QOsBzOKutEmZTYBCftKZzJkRBGQR9_N-_K3v3Bn87YvP2NeNw6X3RFLkjxZqIxoHsBEbXwS9iketC1JD-dAfsFIW')"></div>
+        <div class="p-4">
+          <h4 class="font-headline-md text-headline-md text-tertiary mb-1">Galactic Synth</h4>
+          <p class="font-label-sm text-label-sm text-on-surface-variant mb-3">Sparatutto Spaziale</p>
+          <div class="flex justify-between items-center">
+            <span class="font-label-sm text-label-sm bg-primary/20 text-primary px-2 py-1 rounded">Arcade</span>
+            <button class="bg-surface-container border border-outline-variant/50 text-on-surface-variant font-label-sm text-label-sm py-1.5 px-4 rounded-lg cursor-not-allowed opacity-50">Presto</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="bg-surface-container-lowest text-on-surface-variant font-label-sm text-label-sm w-full mt-auto border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-center py-8 px-gutter">
+    <div class="uppercase tracking-widest text-secondary mb-4 md:mb-0">© 2026 NEON ARCADE</div>
+    <div class="flex space-x-6">
+      <a class="hover:text-secondary transition-colors" href="#">Privacy</a>
+      <a class="hover:text-secondary transition-colors" href="#">Termini</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+var activeTag = 'tutti';
+
+function filterByTag(tag) {
+  activeTag = tag;
+  document.querySelectorAll('.filter-btn').forEach(function(b) {
+    b.classList.toggle('active-filter', b.textContent.trim().toLowerCase() === tag || (tag==='tutti' && b.textContent.trim().toLowerCase()==='tutti'));
+    if (b.textContent.trim().toLowerCase() === tag || (tag==='tutti'&&b.textContent.trim().toLowerCase()==='tutti')) {
+      b.classList.add('bg-primary/10','text-primary','border-primary/40');
+      b.classList.remove('text-on-surface-variant','border-outline-variant/50');
+    } else {
+      b.classList.remove('bg-primary/10','text-primary','border-primary/40');
+      b.classList.add('text-on-surface-variant','border-outline-variant/50');
+    }
+  });
+  applyFilters();
+}
+
+function filterGames() { applyFilters(); }
+
+function applyFilters() {
+  var q = document.getElementById('searchInput').value.toLowerCase();
+  var cards = document.querySelectorAll('.game-card');
+  var visible = 0;
+  cards.forEach(function(c) {
+    var tagMatch = activeTag==='tutti' || c.dataset.tag===activeTag;
+    var nameMatch = !q || c.dataset.name.includes(q) || c.querySelector('h4').textContent.toLowerCase().includes(q);
+    c.style.display = (tagMatch && nameMatch) ? '' : 'none';
+    if (tagMatch && nameMatch) visible++;
+  });
+  document.getElementById('gameCount').textContent = visible + ' gioch' + (visible===1?'o':'i');
+}
+</script>
+<script src="i18n.js"></script>
+<script src="avatars.js"></script>
+</body>
+</html>

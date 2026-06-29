@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html class="dark" lang="it">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NEON ARCADE - Profilo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode:"class",
+  theme:{extend:{
+    colors:{
+      "on-primary-fixed-variant":"#74009f","on-surface":"#e4e1e7","tertiary-fixed-dim":"#00dbe9",
+      "primary-fixed":"#f8d8ff","inverse-primary":"#9900cf","surface":"#131317",
+      "surface-container-low":"#1b1b1f","surface-dim":"#131317","tertiary":"#00dbe9",
+      "on-tertiary":"#00363a","tertiary-fixed":"#7df4ff","primary-container":"#bd00ff",
+      "surface-bright":"#39393d","outline-variant":"#514255","primary-fixed-dim":"#ecb2ff",
+      "surface-container-lowest":"#0e0e12","primary":"#ecb2ff","error":"#ffb4ab",
+      "surface-tint":"#ecb2ff","surface-container":"#1f1f23","secondary-fixed-dim":"#ffb1c3",
+      "secondary":"#ffb1c3","on-primary-container":"#ffffff","on-primary-fixed":"#320047",
+      "secondary-container":"#ff4b89","on-surface-variant":"#d4c0d7","secondary-fixed":"#ffd9e0",
+      "on-primary":"#520071","inverse-surface":"#e4e1e7","tertiary-container":"#00838b",
+      "on-secondary-container":"#590026","inverse-on-surface":"#303034","surface-variant":"#353439",
+      "surface-container-highest":"#353439","surface-container-high":"#2a292e",
+      "error-container":"#93000a","on-background":"#e4e1e7","on-secondary":"#66002c",
+      "outline":"#9d8ba0","on-error-container":"#ffdad6","on-tertiary-container":"#ffffff",
+      "on-secondary-fixed":"#3f0019","background":"#131317"
+    },
+    borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},
+    spacing:{"gutter":"24px","margin-desktop":"48px","margin-mobile":"16px","unit":"8px"},
+    fontFamily:{"headline-lg-mobile":["Sora"],"headline-lg":["Sora"],"headline-md":["Sora"],
+      "body-md":["Plus Jakarta Sans"],"headline-xl":["Sora"],"body-lg":["Plus Jakarta Sans"],"label-sm":["JetBrains Mono"]},
+    fontSize:{
+      "headline-lg-mobile":["32px",{"lineHeight":"1.2","fontWeight":"700"}],
+      "headline-lg":["40px",{"lineHeight":"1.2","letterSpacing":"-0.01em","fontWeight":"700"}],
+      "headline-md":["24px",{"lineHeight":"1.3","fontWeight":"600"}],
+      "body-md":["16px",{"lineHeight":"1.6","fontWeight":"400"}],
+      "headline-xl":["64px",{"lineHeight":"1.1","letterSpacing":"-0.02em","fontWeight":"800"}],
+      "body-lg":["18px",{"lineHeight":"1.6","fontWeight":"400"}],
+      "label-sm":["12px",{"lineHeight":"1.0","letterSpacing":"0.05em","fontWeight":"500"}]
+    }
+  }}
+}
+</script>
+<style>
+.neon-glow{box-shadow:0 0 20px rgba(189,0,255,.3);transition:box-shadow .3s,border-color .3s}
+.neon-glow:hover{box-shadow:0 0 40px rgba(189,0,255,.6);border-color:#ffb1c3}
+.stat-card{background:rgba(31,31,35,.8);border:1px solid rgba(236,178,255,.15);border-radius:.5rem;padding:1.25rem;text-align:center}
+.badge{display:inline-flex;align-items:center;gap:.3rem;padding:.25rem .75rem;border-radius:9999px;font-size:12px;font-weight:500;letter-spacing:.05em}
+</style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex antialiased">
+
+<!-- Sidebar -->
+<nav class="hidden md:flex bg-surface fixed left-0 top-0 h-full w-64 border-r border-primary/20 backdrop-blur-xl shadow-[4px_0_24px_rgba(189,0,255,0.1)] flex-col py-gutter px-4 z-40">
+  <div class="mb-8 flex items-center space-x-4">
+    <div class="w-12 h-12 rounded-full bg-surface-container overflow-hidden border border-primary/30">
+      <img alt="Avatar" class="w-full h-full object-cover profile-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnm6UwO9wIQYn2GtsfjqCtdfsw7QkFdUmJTaO7cxLUFkYKn42LjErrbOEkg6uaRzeAZNvu35IN4xlZc2Xf1lI-iXHXxb3BgYS4AoJjy_HgnpxGHoI3Kq6JPWoyh_WOhrTVhlld8zP0c7yohwP226dxKRQsDJXtIy8xlqY-QaMwSYlHNnHW7BqcFxC4W7VgyIhi0R0zJYPKf6H1b11JyOk90g_7NrK1CRvdT72nIw7bg4880WyfSoEu"/>
+    </div>
+    <div>
+      <h1 class="font-headline-md text-headline-md font-bold text-tertiary drop-shadow-[0_0_8px_rgba(0,219,233,0.5)]">NEON ARCADE</h1>
+      <p class="font-label-sm text-label-sm text-on-surface-variant mt-1" id="sidebarName">Player 1</p>
+    </div>
+  </div>
+  <div class="flex-1 space-y-2">
+    <a class="flex items-center space-x-3 p-3 rounded-DEFAULT text-on-surface-variant hover:text-primary/80 transition-colors hover:bg-surface-variant/50" href="index.html">
+      <span class="material-symbols-outlined">home</span><span>Home</span>
+    </a>
+    <a class="flex items-center space-x-3 p-3 rounded-DEFAULT text-on-surface-variant hover:text-primary/80 transition-colors hover:bg-surface-variant/50" href="libreria.html">
+      <span class="material-symbols-outlined">library_books</span><span>Giochi</span>
+    </a>
+    <a class="flex items-center space-x-3 p-3 rounded-DEFAULT text-on-surface-variant hover:text-primary/80 transition-colors hover:bg-surface-variant/50" href="#">
+      <span class="material-symbols-outlined">shopping_bag</span><span>Negozio</span>
+    </a>
+    <a class="flex items-center space-x-3 p-3 rounded-DEFAULT text-primary border-r-4 border-primary bg-primary/10 scale-[1.02]" href="profilo.html">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">person</span><span>Profilo</span>
+    </a>
+  </div>
+  <button class="mb-8 w-full py-3 px-4 bg-primary-container text-on-primary-container font-label-sm text-label-sm rounded-lg flex items-center justify-center space-x-2 neon-glow">
+    <span class="material-symbols-outlined">account_balance_wallet</span><span>Aggiungi Fondi</span>
+  </button>
+  <div class="space-y-2 mt-auto border-t border-outline-variant/30 pt-4">
+    <a class="flex items-center space-x-3 p-3 rounded-DEFAULT text-on-surface-variant hover:text-primary/80 transition-colors hover:bg-surface-variant/50" href="impostazioni.html">
+      <span class="material-symbols-outlined">settings</span><span>Impostazioni</span>
+    </a>
+  </div>
+</nav>
+
+<!-- Main -->
+<div class="flex-1 md:ml-64 flex flex-col min-h-screen">
+  <header class="bg-surface/80 fixed top-0 right-0 w-full md:w-[calc(100%-16rem)] z-50 border-b border-tertiary/20 backdrop-blur-md flex justify-between items-center h-16 px-gutter">
+    <button class="md:hidden text-on-surface-variant"><span class="material-symbols-outlined">menu</span></button>
+    <div class="flex-1"></div>
+    <div class="flex items-center space-x-4">
+      <button class="text-on-surface-variant hover:text-tertiary transition-colors"><span class="material-symbols-outlined">notifications</span></button>
+      <button onclick="window.location.href='impostazioni.html'" class="text-on-surface-variant hover:text-tertiary transition-colors cursor-pointer" aria-label="Apri impostazioni"><span class="material-symbols-outlined">settings</span></button>
+    </div>
+  </header>
+
+  <main class="flex-1 p-margin-mobile md:p-margin-desktop mt-16 pb-24">
+
+    <!-- Hero profilo -->
+    <div class="relative w-full rounded-xl overflow-hidden mb-8 border border-primary/20" style="background:linear-gradient(135deg,#320047,#0a001a,#002022);min-height:180px;">
+      <div class="absolute inset-0" style="background:radial-gradient(ellipse at 70% 50%,rgba(189,0,255,.25),transparent 70%)"></div>
+      <!-- layout: immagine a sinistra + info a destra -->
+      <div class="relative z-10 flex flex-col md:flex-row items-center md:items-stretch gap-6 p-6 md:p-8">
+
+        <!-- Immagine profilo grande a sinistra -->
+        <div class="flex-shrink-0">
+          <div class="w-32 h-32 md:w-40 md:h-40 rounded-xl border-4 border-primary/60 overflow-hidden shadow-[0_0_30px_rgba(189,0,255,.5)]">
+            <img alt="Avatar" class="w-full h-full object-cover profile-avatar"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnm6UwO9wIQYn2GtsfjqCtdfsw7QkFdUmJTaO7cxLUFkYKn42LjErrbOEkg6uaRzeAZNvu35IN4xlZc2Xf1lI-iXHXxb3BgYS4AoJjy_HgnpxGHoI3Kq6JPWoyh_WOhrTVhlld8zP0c7yohwP226dxKRQsDJXtIy8xlqY-QaMwSYlHNnHW7BqcFxC4W7VgyIhi0R0zJYPKf6H1b11JyOk90g_7NrK1CRvdT72nIw7bg4880WyfSoEu"/>
+          </div>
+        </div>
+
+        <!-- Info a destra -->
+        <div class="flex flex-col justify-center flex-1 gap-3 text-center md:text-left">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+            <div>
+              <h2 class="font-headline-lg text-headline-md text-on-surface mb-1 profile-name">Player 1</h2>
+              <p class="font-label-sm text-label-sm text-on-surface-variant">player1@neonarcade.it · Membro dal Gennaio 2025</p>
+              <p id="profileTag" class="font-label-sm text-label-sm text-tertiary mt-0.5 hidden"></p>
+            </div>
+            <a href="modifica-profilo.html" class="bg-surface-container/80 border border-outline-variant/50 text-on-surface-variant font-label-sm text-label-sm py-2 px-5 rounded-lg flex items-center space-x-2 hover:border-primary/40 hover:text-primary transition-colors self-center md:self-start">
+              <span class="material-symbols-outlined text-sm">edit</span><span>Modifica profilo</span>
+            </a>
+          </div>
+          <div class="flex flex-wrap gap-2 justify-center md:justify-start">
+            <span class="badge bg-primary/15 text-primary border border-primary/30"><span class="material-symbols-outlined text-sm">military_tech</span>Pro Gamer</span>
+            <span class="badge bg-tertiary/15 text-tertiary border border-tertiary/30"><span class="material-symbols-outlined text-sm">local_fire_department</span>Streak 7 giorni</span>
+            <span class="badge bg-secondary/15 text-secondary border border-secondary/30"><span class="material-symbols-outlined text-sm">trophy</span>Top 10%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+      <div class="stat-card">
+        <div class="text-3xl font-bold text-primary drop-shadow-[0_0_8px_rgba(236,178,255,.6)] mb-1" id="statPartite">0</div>
+        <div class="font-label-sm text-label-sm text-on-surface-variant">Partite Giocate</div>
+      </div>
+      <div class="stat-card">
+        <div class="text-3xl font-bold text-tertiary drop-shadow-[0_0_8px_rgba(0,219,233,.6)] mb-1" id="statRecord">0</div>
+        <div class="font-label-sm text-label-sm text-on-surface-variant">Record Snake</div>
+      </div>
+      <div class="stat-card">
+        <div class="text-3xl font-bold text-secondary drop-shadow-[0_0_8px_rgba(255,177,195,.6)] mb-1" id="statOre">0h</div>
+        <div class="font-label-sm text-label-sm text-on-surface-variant">Ore di gioco</div>
+      </div>
+      <div class="stat-card">
+        <div class="text-3xl font-bold text-on-surface mb-1">6</div>
+        <div class="font-label-sm text-label-sm text-on-surface-variant">Giochi in Libreria</div>
+      </div>
+    </div>
+
+    <!-- Giochi recenti -->
+    <div class="mb-8">
+      <h3 class="font-headline-lg text-headline-md text-on-surface flex items-center space-x-3 mb-5">
+        <span class="material-symbols-outlined text-secondary">history</span>
+        <span>Giochi Recenti</span>
+      </h3>
+      <div class="space-y-3">
+        <div class="bg-surface-container-high/60 border border-primary/15 rounded-xl p-4 flex items-center justify-between hover:border-primary/40 transition-colors">
+          <div class="flex items-center space-x-4">
+            <div class="w-12 h-12 rounded-lg bg-green-900/30 flex items-center justify-center text-2xl">🐍</div>
+            <div>
+              <div class="font-headline-md text-[16px] text-on-surface">Snake</div>
+              <div class="font-label-sm text-label-sm text-on-surface-variant">Record: <span class="text-primary" id="snakeRecordRow">0 pt</span></div>
+            </div>
+          </div>
+          <a href="snake.html" class="bg-primary-container text-on-primary-container font-label-sm text-label-sm py-1.5 px-4 rounded-lg neon-glow hover:bg-inverse-primary transition-colors flex items-center space-x-1">
+            <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL' 1">play_arrow</span><span>Gioca</span>
+          </a>
+        </div>
+        <div class="bg-surface-container-high/60 border border-primary/15 rounded-xl p-4 flex items-center justify-between hover:border-primary/40 transition-colors">
+          <div class="flex items-center space-x-4">
+            <div class="w-12 h-12 rounded-lg bg-purple-900/30 flex items-center justify-center text-2xl">⭕</div>
+            <div>
+              <div class="font-headline-md text-[16px] text-on-surface">Tris</div>
+              <div class="font-label-sm text-label-sm text-on-surface-variant">2 Giocatori / vs CPU</div>
+            </div>
+          </div>
+          <a href="tris.html" class="bg-primary-container text-on-primary-container font-label-sm text-label-sm py-1.5 px-4 rounded-lg neon-glow hover:bg-inverse-primary transition-colors flex items-center space-x-1">
+            <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL' 1">play_arrow</span><span>Gioca</span>
+          </a>
+        </div>
+        <div class="bg-surface-container-high/60 border border-primary/15 rounded-xl p-4 flex items-center justify-between hover:border-primary/40 transition-colors">
+          <div class="flex items-center space-x-4">
+            <div class="w-12 h-12 rounded-lg bg-yellow-900/30 flex items-center justify-center text-2xl">♟️</div>
+            <div>
+              <div class="font-headline-md text-[16px] text-on-surface">Scacchi</div>
+              <div class="font-label-sm text-label-sm text-on-surface-variant">Strategia — vs IA</div>
+            </div>
+          </div>
+          <a href="chess.html" class="bg-primary-container text-on-primary-container font-label-sm text-label-sm py-1.5 px-4 rounded-lg neon-glow hover:bg-inverse-primary transition-colors flex items-center space-x-1">
+            <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL' 1">play_arrow</span><span>Gioca</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Achievement -->
+    <div>
+      <h3 class="font-headline-lg text-headline-md text-on-surface flex items-center space-x-3 mb-5">
+        <span class="material-symbols-outlined text-primary">emoji_events</span>
+        <span>Obiettivi</span>
+      </h3>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-surface-container-high/60 border border-primary/20 rounded-xl p-4 text-center">
+          <div class="text-3xl mb-2">🐍</div>
+          <div class="font-label-sm text-label-sm text-on-surface mb-1">Serpente Veloce</div>
+          <div class="font-label-sm text-label-sm text-on-surface-variant">Score 50+ su Snake</div>
+          <div class="mt-2 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+            <div class="h-full bg-primary rounded-full" id="snakeBar" style="width:0%"></div>
+          </div>
+        </div>
+        <div class="bg-surface-container-high/60 border border-tertiary/20 rounded-xl p-4 text-center">
+          <div class="text-3xl mb-2">♟️</div>
+          <div class="font-label-sm text-label-sm text-on-surface mb-1">Gran Maestro</div>
+          <div class="font-label-sm text-label-sm text-on-surface-variant">Vinci agli Scacchi</div>
+          <div class="mt-2 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+            <div class="h-full bg-tertiary rounded-full" style="width:30%"></div>
+          </div>
+        </div>
+        <div class="bg-surface-container-high/60 border border-secondary/20 rounded-xl p-4 text-center">
+          <div class="text-3xl mb-2">🃏</div>
+          <div class="font-label-sm text-label-sm text-on-surface mb-1">Memoria di Ferro</div>
+          <div class="font-label-sm text-label-sm text-on-surface-variant">Memory in &lt;40 mosse</div>
+          <div class="mt-2 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+            <div class="h-full bg-secondary rounded-full" style="width:60%"></div>
+          </div>
+        </div>
+        <div class="bg-surface-container-high/60 border border-outline-variant/30 rounded-xl p-4 text-center opacity-50">
+          <div class="text-3xl mb-2">🧱</div>
+          <div class="font-label-sm text-label-sm text-on-surface mb-1">Demolisher</div>
+          <div class="font-label-sm text-label-sm text-on-surface-variant">Livello 5 su Breakout</div>
+          <div class="mt-2 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+            <div class="h-full bg-outline rounded-full" style="width:10%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="bg-surface-container-lowest text-on-surface-variant font-label-sm text-label-sm w-full mt-auto border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-center py-8 px-gutter">
+    <div class="uppercase tracking-widest text-secondary mb-4 md:mb-0">© 2026 NEON ARCADE</div>
+    <div class="flex space-x-6">
+      <a class="hover:text-secondary transition-colors" href="#">Privacy</a>
+      <a class="hover:text-secondary transition-colors" href="#">Termini</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+// Legge record Snake da localStorage (stesso key usato in snake.html)
+var snakeBest = parseInt(localStorage.getItem('snakeBest') || '0');
+document.getElementById('statRecord').textContent   = snakeBest;
+document.getElementById('snakeRecordRow').textContent = snakeBest + ' pt';
+document.getElementById('statPartite').textContent  = Math.max(snakeBest > 0 ? Math.floor(snakeBest/3)+1 : 0, 0);
+document.getElementById('statOre').textContent      = (Math.floor(snakeBest / 20) + 1) + 'h';
+// Barra progressione Snake (obiettivo: 50 punti)
+var pct = Math.min(100, Math.round((snakeBest / 50) * 100));
+document.getElementById('snakeBar').style.width = pct + '%';
+</script>
+<script>
+// Carica dati profilo da localStorage
+(function() {
+  var data = JSON.parse(localStorage.getItem('neon_profile') || '{}');
+  var avatar = localStorage.getItem('profile_avatar') || null;
+
+  // Carica nome da impostazioni o profilo
+  var username = localStorage.getItem('neon_username') || data.name || null;
+  // Carica email da impostazioni
+  var email = localStorage.getItem('neon_email') || null;
+
+  // Aggiorna nome
+  if (username) {
+    document.querySelectorAll('.profile-name').forEach(function(el){ el.textContent = username; });
+    document.getElementById('sidebarName').textContent = username;
+  } else if (data.name) {
+    document.querySelectorAll('.profile-name').forEach(function(el){ el.textContent = data.name; });
+    document.getElementById('sidebarName').textContent = data.name;
+  }
+  // Aggiorna email
+  if (email) {
+    var emailEl = document.querySelector('.font-label-sm.text-label-sm.text-on-surface-variant');
+    if (emailEl && emailEl.textContent.includes('@')) {
+      emailEl.textContent = email + ' · Membro dal Gennaio 2025';
+    }
+  }
+  // Aggiorna avatar (hero + sidebar)
+  var src = data.avatar || avatar;
+  if (src) {
+    document.querySelectorAll('.profile-avatar').forEach(function(el){ el.src = src; });
+  }
+  // Tag
+  if (data.tag) {
+    var tagEl = document.getElementById('profileTag');
+    if (tagEl) { tagEl.textContent = data.tag; tagEl.classList.remove('hidden'); }
+  }
+})();
+</script>
+<script src="i18n.js"></script>
+<script src="avatars.js"></script>
+</body>
+</html>

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html class="dark" lang="it">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NEON ARCADE - Modifica Profilo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>
+tailwind.config = {
+  darkMode:"class",
+  theme:{extend:{
+    colors:{
+      "on-surface":"#e4e1e7","tertiary":"#00dbe9","tertiary-fixed":"#7df4ff",
+      "primary-container":"#bd00ff","outline-variant":"#514255","primary-fixed-dim":"#ecb2ff",
+      "surface-container-lowest":"#0e0e12","primary":"#ecb2ff","surface":"#131317",
+      "surface-container-low":"#1b1b1f","surface-container":"#1f1f23","secondary":"#ffb1c3",
+      "on-primary-container":"#ffffff","secondary-container":"#ff4b89","on-surface-variant":"#d4c0d7",
+      "on-primary":"#520071","tertiary-container":"#00838b","surface-variant":"#353439",
+      "surface-container-highest":"#353439","surface-container-high":"#2a292e",
+      "on-background":"#e4e1e7","outline":"#9d8ba0","on-tertiary-container":"#ffffff",
+      "inverse-primary":"#9900cf","background":"#131317","error":"#ffb4ab"
+    },
+    borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},
+    spacing:{"gutter":"24px","margin-desktop":"48px","margin-mobile":"16px"},
+    fontFamily:{"headline-lg":["Sora"],"headline-md":["Sora"],"body-md":["Plus Jakarta Sans"],"label-sm":["JetBrains Mono"]},
+    fontSize:{
+      "headline-lg":["40px",{"lineHeight":"1.2","fontWeight":"700"}],
+      "headline-md":["24px",{"lineHeight":"1.3","fontWeight":"600"}],
+      "body-md":["16px",{"lineHeight":"1.6","fontWeight":"400"}],
+      "label-sm":["12px",{"lineHeight":"1.0","letterSpacing":"0.05em","fontWeight":"500"}]
+    }
+  }}
+}
+</script>
+<style>
+.neon-glow{box-shadow:0 0 20px rgba(189,0,255,.3);transition:box-shadow .3s,border-color .3s}
+.neon-glow:hover{box-shadow:0 0 40px rgba(189,0,255,.6)}
+.avatar-option{width:72px;height:72px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:border-color .2s,transform .15s;object-fit:cover}
+.avatar-option:hover{transform:scale(1.08)}
+.avatar-option.selected{border-color:#ecb2ff;box-shadow:0 0 16px rgba(236,178,255,.6)}
+.upload-zone{border:2px dashed rgba(81,66,85,.6);border-radius:.5rem;padding:2rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s}
+.upload-zone:hover{border-color:#ecb2ff;background:rgba(236,178,255,.05)}
+.field-group{margin-bottom:1.25rem}
+.field-label{font-size:12px;font-family:'JetBrains Mono',monospace;letter-spacing:.05em;font-weight:500;color:#d4c0d7;margin-bottom:.4rem;display:block}
+.field-input{width:100%;background:#f5f3f4;border:1px solid rgba(81,66,85,.45);border-radius:.5rem;padding:.75rem 1rem;color:#111111;-webkit-text-fill-color:#111111;caret-color:#111111;font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;outline:none;transition:border-color .2s}
+.field-input:focus{border-color:#ecb2ff;box-shadow:0 0 0 3px rgba(236,178,255,.15)}
+.field-input::placeholder{color:rgba(17,17,17,.45)}
+.field-input:-webkit-autofill{-webkit-text-fill-color:#111111;box-shadow:0 0 0 1000px #f5f3f4 inset}
+.char-count{font-size:11px;color:#9d8ba0;text-align:right;margin-top:.2rem}
+.banner-preview{width:100%;height:120px;border-radius:.5rem;overflow:hidden;position:relative;cursor:pointer}
+.banner-preview:hover .banner-overlay{opacity:1}
+.banner-overlay{position:absolute;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
+</style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex antialiased">
+
+<!-- Sidebar -->
+<nav class="hidden md:flex bg-surface fixed left-0 top-0 h-full w-64 border-r border-primary/20 backdrop-blur-xl shadow-[4px_0_24px_rgba(189,0,255,0.1)] flex-col py-gutter px-4 z-40">
+  <div class="mb-8 flex items-center space-x-4">
+    <div class="w-12 h-12 rounded-full bg-surface-container overflow-hidden border border-primary/30">
+      <img id="sidebarAvatar" alt="Avatar" class="w-full h-full object-cover profile-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnm6UwO9wIQYn2GtsfjqCtdfsw7QkFdUmJTaO7cxLUFkYKn42LjErrbOEkg6uaRzeAZNvu35IN4xlZc2Xf1lI-iXHXxb3BgYS4AoJjy_HgnpxGHoI3Kq6JPWoyh_WOhrTVhlld8zP0c7yohwP226dxKRQsDJXtIy8xlqY-QaMwSYlHNnHW7BqcFxC4W7VgyIhi0R0zJYPKf6H1b11JyOk90g_7NrK1CRvdT72nIw7bg4880WyfSoEu"/>
+    </div>
+    <div>
+      <h1 class="font-headline-md text-headline-md font-bold text-tertiary drop-shadow-[0_0_8px_rgba(0,219,233,0.5)]">NEON ARCADE</h1>
+      <p class="font-label-sm text-label-sm text-on-surface-variant" id="sidebarName">Player 1</p>
+    </div>
+  </div>
+  <div class="flex-1 space-y-2">
+    <a class="flex items-center space-x-3 p-3 rounded-DEFAULT text-on-surface-variant hover:text-primary/80 transition-colors hover:bg-surface-variant/50" href="index.html">
+      <span class="material-symbols-outlined">home</span><span>Home</span>
+    </a>
+    <a class="flex items-center space-x-3 p-3 rounded-DEFAULT text-on-surface-variant hover:text-primary/80 transition-colors hover:bg-surface-variant/50" href="libreria.html">
+      <span class="material-symbols-outlined">library_books</span><span>Giochi</span>
+    </a>
+    <a class="flex items-center space-x-3 p-3 rounded-DEFAULT text-on-surface-variant hover:text-primary/80 transition-colors hover:bg-surface-variant/50" href="#">
+      <span class="material-symbols-outlined">shopping_bag</span><span>Negozio</span>
+    </a>
+    <a class="flex items-center space-x-3 p-3 rounded-DEFAULT text-primary border-r-4 border-primary bg-primary/10 scale-[1.02]" href="profilo.html">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">person</span><span>Profilo</span>
+    </a>
+  </div>
+  <button class="mb-8 w-full py-3 px-4 bg-primary-container text-on-primary-container font-label-sm text-label-sm rounded-lg flex items-center justify-center space-x-2 neon-glow">
+    <span class="material-symbols-outlined">account_balance_wallet</span><span>Aggiungi Fondi</span>
+  </button>
+  <div class="space-y-2 mt-auto border-t border-outline-variant/30 pt-4">
+    <a class="flex items-center space-x-3 p-3 rounded-DEFAULT text-on-surface-variant hover:text-primary/80 transition-colors hover:bg-surface-variant/50" href="impostazioni.html">
+      <span class="material-symbols-outlined">settings</span><span>Impostazioni</span>
+    </a>
+  </div>
+</nav>
+
+<!-- Main -->
+<div class="flex-1 md:ml-64 flex flex-col min-h-screen">
+  <header class="bg-surface/80 fixed top-0 right-0 w-full md:w-[calc(100%-16rem)] z-50 border-b border-tertiary/20 backdrop-blur-md flex items-center h-16 px-gutter gap-4">
+    <a href="profilo.html" class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1 font-label-sm text-label-sm">
+      <span class="material-symbols-outlined">arrow_back</span>Torna al profilo
+    </a>
+    <div class="flex-1"></div>
+    <button onclick="saveProfile()" class="bg-primary-container text-on-primary-container font-label-sm text-label-sm py-2 px-6 rounded-lg neon-glow flex items-center gap-2">
+      <span class="material-symbols-outlined text-sm">save</span>Salva
+    </button>
+  </header>
+
+  <main class="flex-1 p-margin-mobile md:p-margin-desktop mt-16 pb-24 max-w-2xl mx-auto w-full">
+
+    <h2 class="font-headline-lg text-headline-md md:text-headline-lg text-on-surface flex items-center gap-3 mb-8">
+      <span class="material-symbols-outlined text-primary">manage_accounts</span>
+      Modifica Profilo
+    </h2>
+
+    <!-- Anteprima profilo -->
+    <div class="bg-surface-container-high/60 border border-primary/20 rounded-xl p-6 mb-6 flex items-center gap-5">
+      <div class="relative flex-shrink-0">
+        <div class="w-20 h-20 rounded-full border-4 border-primary/50 overflow-hidden shadow-[0_0_20px_rgba(189,0,255,.4)] cursor-pointer" onclick="document.getElementById('fileInput').click()" title="Clicca per cambiare foto">
+          <img id="previewAvatar" alt="Avatar" class="w-full h-full object-cover profile-avatar"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnm6UwO9wIQYn2GtsfjqCtdfsw7QkFdUmJTaO7cxLUFkYKn42LjErrbOEkg6uaRzeAZNvu35IN4xlZc2Xf1lI-iXHXxb3BgYS4AoJjy_HgnpxGHoI3Kq6JPWoyh_WOhrTVhlld8zP0c7yohwP226dxKRQsDJXtIy8xlqY-QaMwSYlHNnHW7BqcFxC4W7VgyIhi0R0zJYPKf6H1b11JyOk90g_7NrK1CRvdT72nIw7bg4880WyfSoEu"/>
+        </div>
+        <button onclick="document.getElementById('fileInput').click()" class="absolute -bottom-1 -right-1 w-7 h-7 bg-primary-container rounded-full flex items-center justify-center shadow neon-glow" title="Carica foto">
+          <span class="material-symbols-outlined text-on-primary-container" style="font-size:16px">photo_camera</span>
+        </button>
+      </div>
+      <div>
+        <div class="font-headline-md text-[18px] text-on-surface" id="previewName">Player 1</div>
+        <div class="font-label-sm text-label-sm text-on-surface-variant mt-1" id="previewBio">Nessuna bio</div>
+        <div class="font-label-sm text-label-sm text-tertiary mt-1" id="previewTag">@player1</div>
+      </div>
+    </div>
+
+    <!-- Sezione: Foto profilo -->
+    <div class="bg-surface-container-high/40 border border-outline-variant/30 rounded-xl p-5 mb-5">
+      <h3 class="font-headline-md text-[16px] text-on-surface flex items-center gap-2 mb-4">
+        <span class="material-symbols-outlined text-primary text-[20px]">photo_camera</span>Foto profilo
+      </h3>
+
+      <!-- Upload personalizzata -->
+      <div class="upload-zone mb-4" onclick="document.getElementById('fileInput').click()">
+        <span class="material-symbols-outlined text-on-surface-variant text-4xl mb-2 block">cloud_upload</span>
+        <p class="font-label-sm text-label-sm text-on-surface-variant">Clicca per caricare la tua foto</p>
+        <p class="font-label-sm text-label-sm text-outline mt-1">JPG, PNG, GIF fino a 5MB</p>
+      </div>
+      <input type="file" id="fileInput" accept="image/*" class="hidden" onchange="handleFileUpload(event)"/>
+
+      <!-- Avatar preset -->
+      <p class="font-label-sm text-label-sm text-on-surface-variant mb-3">Oppure scegli un avatar:</p>
+      <div class="flex flex-wrap gap-3" id="avatarGrid"></div>
+    </div>
+
+    <!-- Sezione: Informazioni -->
+    <div class="bg-surface-container-high/40 border border-outline-variant/30 rounded-xl p-5 mb-5">
+      <h3 class="font-headline-md text-[16px] text-on-surface flex items-center gap-2 mb-4">
+        <span class="material-symbols-outlined text-primary text-[20px]">badge</span>Informazioni
+      </h3>
+
+      <div class="field-group">
+        <label class="field-label">Nome visualizzato</label>
+        <input class="field-input" id="fieldName" type="text" placeholder="Il tuo nome" maxlength="30" oninput="updatePreview()"/>
+        <div class="char-count"><span id="nameCount">0</span>/30</div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Tag (@username)</label>
+        <input class="field-input" id="fieldTag" type="text" placeholder="@username" maxlength="20" oninput="updatePreview()"/>
+        <div class="char-count"><span id="tagCount">0</span>/20</div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Bio</label>
+        <textarea class="field-input" id="fieldBio" rows="3" placeholder="Scrivi qualcosa su di te..." maxlength="150" oninput="updatePreview()" style="resize:vertical"></textarea>
+        <div class="char-count"><span id="bioCount">0</span>/150</div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Titolo / Status</label>
+        <input class="field-input" id="fieldTitle" type="text" placeholder="es. Campione di Snake" maxlength="40"/>
+        <div class="char-count"><span id="titleCount">0</span>/40</div>
+      </div>
+    </div>
+
+    <!-- Sezione: Contatti -->
+    <div class="bg-surface-container-high/40 border border-outline-variant/30 rounded-xl p-5 mb-5">
+      <h3 class="font-headline-md text-[16px] text-on-surface flex items-center gap-2 mb-4">
+        <span class="material-symbols-outlined text-primary text-[20px]">link</span>Link e Contatti
+      </h3>
+      <div class="field-group">
+        <label class="field-label">Sito web</label>
+        <input class="field-input" id="fieldWeb" type="url" placeholder="https://tuosito.com"/>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="field-group mb-0">
+          <label class="field-label">Twitter / X</label>
+          <input class="field-input" id="fieldTwitter" type="text" placeholder="@handle"/>
+        </div>
+        <div class="field-group mb-0">
+          <label class="field-label">Discord</label>
+          <input class="field-input" id="fieldDiscord" type="text" placeholder="user#0000"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottoni -->
+    <div class="flex gap-3 flex-wrap">
+      <button onclick="saveProfile()" class="bg-primary-container text-on-primary-container font-label-sm text-label-sm py-3 px-8 rounded-lg neon-glow flex items-center gap-2">
+        <span class="material-symbols-outlined text-sm">save</span>Salva modifiche
+      </button>
+      <a href="profilo.html" class="bg-transparent border border-outline-variant/50 text-on-surface-variant font-label-sm text-label-sm py-3 px-6 rounded-lg flex items-center gap-2 hover:border-primary/40 hover:text-primary transition-colors">
+        <span class="material-symbols-outlined text-sm">close</span>Annulla
+      </a>
+    </div>
+
+  </main>
+
+  <footer class="bg-surface-container-lowest text-on-surface-variant font-label-sm text-label-sm w-full mt-auto border-t border-outline-variant/30 flex justify-between items-center py-6 px-gutter">
+    <div class="uppercase tracking-widest text-secondary">© 2026 NEON ARCADE</div>
+  </footer>
+</div>
+
+<script src="avatars.js"></script>
+<script>
+var selectedAvatar = localStorage.getItem('profile_avatar') || '';
+
+// ── Costruisce griglia avatar con sistema unlock ──────────────
+function buildAvatarGrid() {
+  var grid = document.getElementById('avatarGrid');
+  grid.innerHTML = '';
+
+  // Raggruppa per categoria
+  var cats = [
+    { label:'🎮 Starter',    ids:['starter_rookie','starter_ghost'] },
+    { label:'🐍 Snake',      ids:['snake_10','snake_30','snake_50','snake_100'] },
+    { label:'⭕ Tris',       ids:['tris_1','tris_5','tris_10'] },
+    { label:'🃏 Memory',     ids:['memory_first','memory_40','memory_20'] },
+    { label:'🧱 Breakout',   ids:['break_1','break_3','break_5'] },
+    { label:'♟️ Scacchi',    ids:['chess_1','chess_3','chess_10'] },
+    { label:'🏆 Speciali',   ids:['all5','neon_legend'] },
+  ];
+
+  cats.forEach(function(cat) {
+    var catDiv = document.createElement('div');
+    catDiv.style.cssText = 'width:100%;margin-bottom:1.2rem';
+
+    var title = document.createElement('div');
+    title.style.cssText = 'font-size:11px;font-family:"JetBrains Mono",monospace;letter-spacing:.08em;color:#9d8ba0;margin-bottom:.7rem;font-weight:700;text-transform:uppercase';
+    title.textContent = cat.label;
+    catDiv.appendChild(title);
+
+    var row = document.createElement('div');
+    row.style.cssText = 'display:flex;flex-wrap:wrap;gap:12px';
+
+    cat.ids.forEach(function(id) {
+      var av = AVATARS.find(function(a){ return a.id === id; });
+      if (!av) return;
+      var unlocked = av.starter || isUnlocked(av.id);
+      var svgData = 'data:image/svg+xml,' + encodeURIComponent(av.svg);
+      var isSel = selectedAvatar === svgData || (!selectedAvatar && av.id === 'starter_rookie');
+
+      var wrap = document.createElement('div');
+      wrap.style.cssText = 'position:relative;cursor:' + (unlocked?'pointer':'default') + ';padding:8px;border-radius:18px;background:linear-gradient(180deg,rgba(42,41,46,.9),rgba(31,31,35,.75));border:1px solid ' + (unlocked ? 'rgba(236,178,255,.14)' : 'rgba(81,66,85,.22)') + ';box-shadow:0 10px 25px rgba(0,0,0,.18);transition:transform .16s ease,border-color .2s ease,box-shadow .2s ease';
+      wrap.title = unlocked ? av.name + ' — ' + av.desc : '🔒 ' + av.desc;
+
+      var img = document.createElement('img');
+      img.src = svgData;
+      img.style.cssText = 'width:84px;height:84px;border-radius:50%;border:3px solid ' +
+        (isSel ? '#ecb2ff' : (unlocked ? 'rgba(236,178,255,.30)' : 'rgba(81,66,85,.25)')) +
+        ';transition:border-color .2s,transform .15s,filter .2s,box-shadow .2s;object-fit:cover;' +
+        (unlocked ? 'box-shadow:0 0 0 1px rgba(255,255,255,.03),0 0 22px rgba(189,0,255,.14);' : 'filter:grayscale(1) brightness(.35);');
+      if (unlocked) {
+        var selectAvatar = function() {
+          document.querySelectorAll('.av-img').forEach(function(el){
+            el.classList.remove('sel');
+            el.style.borderColor='rgba(236,178,255,.30)';
+            el.style.boxShadow='0 0 0 1px rgba(255,255,255,.03),0 0 22px rgba(189,0,255,.14)';
+          });
+          img.classList.add('sel');
+          img.style.borderColor='#ecb2ff';
+          img.style.boxShadow='0 0 16px rgba(236,178,255,.6),0 0 34px rgba(189,0,255,.18)';
+          selectedAvatar = svgData;
+          syncProfileAvatar();
+        };
+        wrap.onmouseover = function(){ wrap.style.transform='translateY(-2px)'; wrap.style.borderColor='rgba(236,178,255,.35)'; wrap.style.boxShadow='0 16px 32px rgba(0,0,0,.24),0 0 24px rgba(189,0,255,.16)'; if (!img.classList.contains('sel')) img.style.borderColor='#ecb2ff80'; img.style.transform='scale(1.05)'; };
+        wrap.onmouseout  = function(){ wrap.style.transform='translateY(0)'; wrap.style.borderColor='rgba(236,178,255,.14)'; wrap.style.boxShadow='0 10px 25px rgba(0,0,0,.18)'; if (!img.classList.contains('sel')) img.style.borderColor='rgba(236,178,255,.30)'; img.style.transform='scale(1)'; };
+        wrap.onclick = selectAvatar;
+        img.onclick = selectAvatar;
+        if (isSel) {
+          img.classList.add('sel');
+          img.style.boxShadow='0 0 16px rgba(236,178,255,.6),0 0 34px rgba(189,0,255,.18)';
+        }
+      }
+      img.className = 'av-img';
+
+      // Lock overlay
+      if (!unlocked) {
+        var lock = document.createElement('div');
+        lock.style.cssText = 'position:absolute;inset:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:50%;background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.55));backdrop-filter:blur(2px)';
+        lock.innerHTML = '<span style="font-size:18px">🔒</span>'
+          + '<span style="font-size:9px;color:#9d8ba0;font-family:JetBrains Mono;text-align:center;line-height:1.2;margin-top:2px;padding:0 4px">'
+          + av.desc.split(' ').slice(0,4).join(' ') + '</span>';
+        wrap.appendChild(img);
+        wrap.appendChild(lock);
+      } else {
+        wrap.appendChild(img);
+      }
+
+      row.appendChild(wrap);
+    });
+
+    catDiv.appendChild(row);
+    grid.appendChild(catDiv);
+  });
+}
+
+// ── Upload file ───────────────────────────────────────────────
+function handleFileUpload(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { showToast('File troppo grande! Max 5MB', true); return; }
+  var reader = new FileReader();
+  reader.onload = function(ev) {
+    selectedAvatar = ev.target.result;
+    syncProfileAvatar();
+    document.querySelectorAll('.avatar-option').forEach(function(el){ el.classList.remove('selected'); });
+    showToast('Foto caricata!');
+  };
+  reader.readAsDataURL(file);
+}
+
+// ── Aggiorna anteprima ────────────────────────────────────────
+function updatePreview() {
+  var name = document.getElementById('fieldName').value.trim();
+  var bio  = document.getElementById('fieldBio').value.trim();
+  var tag  = document.getElementById('fieldTag').value.trim();
+  document.getElementById('previewName').textContent = name || 'Player 1';
+  document.getElementById('previewBio').textContent  = bio  || 'Nessuna bio';
+  document.getElementById('previewTag').textContent  = tag  || '@player1';
+  document.getElementById('sidebarName').textContent = name || 'Player 1';
+
+  document.getElementById('nameCount').textContent  = document.getElementById('fieldName').value.length;
+  document.getElementById('tagCount').textContent   = document.getElementById('fieldTag').value.length;
+  document.getElementById('bioCount').textContent   = document.getElementById('fieldBio').value.length;
+  document.getElementById('titleCount').textContent = document.getElementById('fieldTitle').value.length;
+}
+
+// ── Carica dati salvati ───────────────────────────────────────
+function loadProfile() {
+  var data = JSON.parse(localStorage.getItem('neon_profile') || '{}');
+  document.getElementById('fieldName').value    = data.name    || 'Player 1';
+  document.getElementById('fieldTag').value     = data.tag     || '@player1';
+  document.getElementById('fieldBio').value     = data.bio     || '';
+  document.getElementById('fieldTitle').value   = data.title   || '';
+  document.getElementById('fieldWeb').value     = data.web     || '';
+  document.getElementById('fieldTwitter').value = data.twitter || '';
+  document.getElementById('fieldDiscord').value = data.discord || '';
+  if (data.avatar) { selectedAvatar = data.avatar; }
+  if (!selectedAvatar) selectedAvatar = data.avatar || localStorage.getItem('profile_avatar') || DEFAULT_PROFILE_AVATAR;
+  syncProfileAvatar();
+  updatePreview();
+}
+
+// ── Salva ─────────────────────────────────────────────────────
+function saveProfile() {
+  var data = {
+    name:    document.getElementById('fieldName').value.trim()    || 'Player 1',
+    tag:     document.getElementById('fieldTag').value.trim()     || '@player1',
+    bio:     document.getElementById('fieldBio').value.trim(),
+    title:   document.getElementById('fieldTitle').value.trim(),
+    web:     document.getElementById('fieldWeb').value.trim(),
+    twitter: document.getElementById('fieldTwitter').value.trim(),
+    discord: document.getElementById('fieldDiscord').value.trim(),
+    avatar:  selectedAvatar,
+  };
+  localStorage.setItem('neon_profile', JSON.stringify(data));
+  localStorage.setItem('profile_avatar', selectedAvatar);
+  showToast('Profilo salvato! ✓');
+  setTimeout(function(){ window.location.href = 'profilo.html'; }, 1200);
+}
+
+// ── Toast ─────────────────────────────────────────────────────
+function showToast(msg, isError) {
+  var old = document.getElementById('neon-toast');
+  if (old) old.remove();
+  var toast = document.createElement('div');
+  toast.id = 'neon-toast';
+  toast.textContent = msg;
+  toast.style.cssText = 'position:fixed;bottom:2rem;right:2rem;background:' +
+    (isError ? '#93000a' : '#bd00ff') +
+    ';color:#fff;font-size:12px;font-family:"JetBrains Mono",monospace;padding:.75rem 1.25rem;border-radius:.5rem;z-index:9999;box-shadow:0 0 20px rgba(189,0,255,.5);opacity:1;transition:opacity .4s';
+  document.body.appendChild(toast);
+  setTimeout(function(){ toast.style.opacity='0'; setTimeout(function(){ toast.remove(); }, 400); }, 2500);
+}
+
+// ── Init ──────────────────────────────────────────────────────
+buildAvatarGrid();
+loadProfile();
+</script>
+</body>
+</html>

@@ -1,267 +1,300 @@
 <!DOCTYPE html>
-<html lang="it">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Abdul Game 🎮</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
 
-  <canvas id="lightfallBg" class="lightfall-bg" aria-hidden="true"></canvas>
-
-  <header>
-    <div class="brand">
-      <div class="logo">🎮 Abdul Game</div>
-      <div class="home-search">
-        <input class="game-search" type="search" placeholder="Cerca un gioco..." aria-label="Cerca un gioco" />
-      </div>
-    </div>
-    <nav>
-      <a href="index.html" class="active">Home</a>
-      <a href="snake.html">Snake</a>
-      <a href="tris.html">Tris</a>
-      <a href="memory.html">Memory</a>
-      <a href="breakout.html">Breakout</a>
-      <a href="puzzle.html">Puzzle</a>
-      <a href="chess.html"> Scacchi</a>
-    </nav>
-  </header>
-
-  <div class="sidebar-toggle-row">
-    <button class="sidebar-toggle" id="sidebarToggle" type="button" aria-label="Apri barra laterale" aria-expanded="false">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-  </div>
-
-  <main class="home-layout">
-    <div class="home-content">
-      <section class="hero">
-        <h1>Gioca su <span>Abdul Game</span></h1>
-
-      <section class="games-grid">
-
-      <a href="snake.html" class="game-card">
-        <div class="card-icon">🐍</div>
-        <div class="card-body">
-          <h2>Snake</h2>
-          <p>Guida il serpente, mangia il cibo e cresci. Quanti punti riesci a fare?</p>
-          <span class="badge">Classico</span>
-        </div>
-      </a>
-
-      <a href="tris.html" class="game-card">
-        <div class="card-icon">⭕</div>
-        <div class="card-body">
-          <h2>Tris</h2>
-          <p>Sfida l'amico o gioca contro il computer nel classico gioco del tris.</p>
-          <span class="badge">2 Giocatori</span>
-        </div>
-      </a>
-
-      <a href="memory.html" class="game-card">
-        <div class="card-icon">🃏</div>
-        <div class="card-body">
-          <h2>Memory</h2>
-          <p>Trova tutte le coppie di carte. Allenati e migliora la tua memoria!</p>
-          <span class="badge">Puzzle</span>
-        </div>
-      </a>
-
-      <a href="breakout.html" class="game-card">
-        <div class="card-icon">🧱</div>
-        <div class="card-body">
-          <h2>Breakout</h2>
-          <p>Distruggi tutti i mattoncini con la pallina. Quanti livelli riesci a superare?</p>
-          <span class="badge">Azione</span>
-        </div>
-      </a>
-
-      <a href="puzzle.html" class="game-card">
-        <div class="card-icon">🧩</div>
-        <div class="card-body">
-          <h2>Puzzle</h2>
-          <p>Ricomponi il puzzle scorrendo i tasselli. Scegli tra 3×3, 4×4 e 5×5!</p>
-          <span class="badge">Logica</span>
-        </div>
-      </a>
-
-      <a href="chess.html" class="game-card">
-        <div class="card-icon">♟️</div>
-        <div class="card-body">
-          <h2>Scacchi</h2>
-          <p>Sfida l'intelligenza artificiale o gioca con un amico. Scacco matto al re!</p>
-          <span class="badge">Strategia</span>
-        </div>
-      </a>
-
-      </section>
-    </div>
-
-    <aside class="home-sidebar" id="homeSidebar">
-      <div class="sidebar-search">
-        <input class="game-search" type="search" placeholder="Cerca un gioco..." aria-label="Cerca un gioco" />
-      </div>
-      <div>
-        <div class="sidebar-list">
-          <a class="sidebar-link" href="snake.html"><span>Snake</span><small>Classico veloce</small></a>
-          <a class="sidebar-link" href="tris.html"><span>Tris</span><small>2 giocatori / CPU</small></a>
-          <a class="sidebar-link" href="memory.html"><span>Memory</span><small>Concentrazione</small></a>
-          <a class="sidebar-link" href="breakout.html"><span>Breakout</span><small>Livelli speciali</small></a>
-          <a class="sidebar-link" href="puzzle.html"><span>Puzzle</span><small>Tasselli scorrevoli</small></a>
-          <a class="sidebar-link" href="chess.html"><span>Scacchi</span><small>Strategia</small></a>
-        </div>
-      </div>
-
-      <div class="sidebar-social">
-        <a href="#" target="_blank" aria-label="YouTube" class="social-icon">
-          <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.38.55A3.02 3.02 0 0 0 .5 6.19 31.6 31.6 0 0 0 0 12a31.6 31.6 0 0 0 .5 5.81 3.02 3.02 0 0 0 2.12 2.14c1.88.55 9.38.55 9.38.55s7.5 0 9.38-.55a3.02 3.02 0 0 0 2.12-2.14A31.6 31.6 0 0 0 24 12a31.6 31.6 0 0 0-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></svg>
-        </a>
-        <a href="#" target="_blank" aria-label="TikTok" class="social-icon">
-          <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
-        </a>
-        <a href="#" target="_blank" aria-label="Discord" class="social-icon">
-          <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M20.32 4.37A19.8 19.8 0 0 0 14.55 2.7a.14.14 0 0 0-.16.06 13.73 13.73 0 0 0-.6 1.24 18.2 18.2 0 0 0-5.57 0 13.73 13.73 0 0 0-.61-1.24.14.14 0 0 0-.16-.06 19.74 19.74 0 0 0-5.77 1.67.14.14 0 0 0-.07.06A20.2 20.2 0 0 0 .05 17.73a.14.14 0 0 0 .05.1 19.76 19.76 0 0 0 5.97 3.03.14.14 0 0 0 .16-.06 13.9 13.9 0 0 0 1.1-1.79.14.14 0 0 0-.07-.19 13 13 0 0 1-1.68-.8.14.14 0 0 1-.02-.23c.11-.08.22-.17.33-.26a.14.14 0 0 1 .14-.02 14.08 14.08 0 0 0 12.03 0 .14.14 0 0 1 .14.02c.11.1.22.18.33.26a.14.14 0 0 1-.02.23c-.53.3-1.1.57-1.68.8a.14.14 0 0 0-.07.19c.33.62.71 1.22 1.1 1.79a.14.14 0 0 0 .16.06 19.7 19.7 0 0 0 6-3.03.14.14 0 0 0 .05-.1 20.14 20.14 0 0 0-2.05-13.3.14.14 0 0 0-.07-.06zM8.02 15.33c-1.18 0-2.16-1.08-2.16-2.42s.95-2.43 2.16-2.43 2.19 1.09 2.16 2.43c0 1.34-.94 2.42-2.16 2.42zm7.97 0c-1.18 0-2.16-1.08-2.16-2.42s.95-2.43 2.16-2.43 2.19 1.09 2.16 2.43c0 1.34-.94 2.42-2.16 2.42z"/></svg>
-        </a>
-        <a href="#" target="_blank" aria-label="Apple" class="social-icon">
-          <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-        </a>
-      </div>
-    </aside>
-  </main>
-
-  <footer>
-    <p>© 2026 Abdul Game</p>
-  </footer>
-
-  <script>
-    const sidebarToggle = document.getElementById('sidebarToggle');
-    const homeSidebar = document.getElementById('homeSidebar');
-    const gameSearchInputs = document.querySelectorAll('.game-search');
-    const sidebarLinks = document.querySelectorAll('.sidebar-link');
-    const gameCards = document.querySelectorAll('.game-card');
-
-    sidebarToggle.addEventListener('click', () => {
-      const open = homeSidebar.classList.toggle('open');
-      sidebarToggle.classList.toggle('open', open);
-      sidebarToggle.setAttribute('aria-expanded', String(open));
-    });
-
-    function applySearch(q) {
-      const query = q.trim().toLowerCase();
-
-      sidebarLinks.forEach(link => {
-        const text = link.textContent.toLowerCase();
-        link.style.display = text.includes(query) ? '' : 'none';
-      });
-
-      gameCards.forEach(card => {
-        const text = card.textContent.toLowerCase();
-        card.style.display = text.includes(query) ? '' : 'none';
-      });
-    }
-
-    gameSearchInputs.forEach(input => {
-      input.addEventListener('input', () => {
-        const q = input.value;
-        gameSearchInputs.forEach(other => {
-          if (other !== input) other.value = q;
-        });
-        applySearch(q);
-      });
-    });
-
-    const bgCanvas = document.getElementById('lightfallBg');
-    const bgCtx = bgCanvas.getContext('2d');
-    const bgPalette = ['#A6C8FF', '#5227FF', '#FF9FFC', '#4FD1FF'];
-    const streaks = [];
-    const mouse = { x: window.innerWidth * 0.5, y: window.innerHeight * 0.35, active: false };
-
-    function resizeBg() {
-      bgCanvas.width = window.innerWidth * window.devicePixelRatio;
-      bgCanvas.height = window.innerHeight * window.devicePixelRatio;
-      bgCanvas.style.width = '100%';
-      bgCanvas.style.height = '100%';
-      bgCtx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
-    }
-
-    function rand(min, max) {
-      return Math.random() * (max - min) + min;
-    }
-
-    function makeStreak() {
-      const color = bgPalette[Math.floor(Math.random() * bgPalette.length)];
-      return {
-        x: rand(0, window.innerWidth),
-        y: rand(-window.innerHeight, window.innerHeight),
-        speed: rand(70, 220),
-        length: rand(120, 420),
-        width: rand(1, 3),
-        color
-      };
-    }
-
-    for (let i = 0; i < 20; i++) streaks.push(makeStreak());
-
-    function drawBg(t) {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      bgCtx.fillStyle = 'rgba(7, 10, 22, 0.16)';
-      bgCtx.fillRect(0, 0, w, h);
-
-      const glow = bgCtx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, Math.max(w, h) * 0.45);
-      glow.addColorStop(0, 'rgba(82, 39, 255, 0.22)');
-      glow.addColorStop(0.35, 'rgba(166, 200, 255, 0.12)');
-      glow.addColorStop(1, 'rgba(7, 10, 22, 0)');
-      bgCtx.fillStyle = glow;
-      bgCtx.fillRect(0, 0, w, h);
-
-      bgCtx.save();
-      bgCtx.globalCompositeOperation = 'lighter';
-      streaks.forEach((s, i) => {
-        s.y += s.speed * 0.016;
-        s.x += Math.sin((t * 0.0003) + i) * 0.08;
-        if (s.y - s.length > h + 40) {
-          Object.assign(s, makeStreak(), { y: rand(-h, -40) });
+<html class="dark" lang="it"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NEON ARCADE - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Sora:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fon ts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed-variant": "#74009f",
+                        "on-surface": "#e4e1e7",
+                        "tertiary-fixed-dim": "#00dbe9",
+                        "primary-fixed": "#f8d8ff",
+                        "inverse-primary": "#9900cf",
+                        "on-secondary-fixed-variant": "#8f0041",
+                        "surface": "#131317",
+                        "surface-container-low": "#1b1b1f",
+                        "on-error": "#690005",
+                        "surface-dim": "#131317",
+                        "tertiary": "#00dbe9",  
+                        "on-tertiary": "#00363a",
+                        "tertiary-fixed": "#7df4ff",
+                        "primary-container": "#bd00ff",
+                        "surface-bright": "#39393d",
+                        "outline-variant": "#514255",
+                        "primary-fixed-dim": "#ecb2ff",
+                        "surface-container-lowest": "#0e0e12",
+                        "primary": "#ecb2ff",
+                        "error": "#ffb4ab",
+                        "on-tertiary-fixed": "#002022",
+                        "surface-tint": "#ecb2ff",
+                        "surface-container": "#1f1f23",
+                        "secondary-fixed-dim": "#ffb1c3",
+                        "secondary": "#ffb1c3",
+                        "on-primary-container": "#ffffff",
+                        "on-primary-fixed": "#320047",
+                        "secondary-container": "#ff4b89",
+                        "on-surface-variant": "#d4c0d7",
+                        "secondary-fixed": "#ffd9e0",
+                        "on-primary": "#520071",
+                        "inverse-surface": "#e4e1e7",
+                        "tertiary-container": "#00838b",
+                        "on-secondary-container": "#590026",
+                        "inverse-on-surface": "#303034",
+                        "surface-variant": "#353439",
+                        "surface-container-highest": "#353439",
+                        "surface-container-high": "#2a292e",
+                        "error-container": "#93000a",
+                        "on-background": "#e4e1e7",
+                        "on-tertiary-fixed-variant": "#004f54",
+                        "on-secondary": "#66002c",
+                        "outline": "#9d8ba0",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-container": "#ffffff",
+                        "on-secondary-fixed": "#3f0019",
+                        "background": "#131317"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-desktop": "48px",
+                        "margin-mobile": "16px",
+                        "unit": "8px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Sora"],
+                        "headline-lg": ["Sora"],
+                        "headline-md": ["Sora"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "headline-xl": ["Sora"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "label-sm": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-lg": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-xl": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }]
+                    }
+                }
+            }
         }
-
-        const grad = bgCtx.createLinearGradient(s.x, s.y - s.length, s.x, s.y);
-        grad.addColorStop(0, 'rgba(255,255,255,0)');
-        grad.addColorStop(0.25, s.color + '22');
-        grad.addColorStop(0.8, s.color + 'CC');
-        grad.addColorStop(1, 'rgba(255,255,255,0)');
-
-        bgCtx.strokeStyle = grad;
-        bgCtx.lineWidth = s.width;
-        bgCtx.shadowBlur = 18;
-        bgCtx.shadowColor = s.color;
-        bgCtx.beginPath();
-        bgCtx.moveTo(s.x, s.y - s.length);
-        bgCtx.lineTo(s.x, s.y);
-        bgCtx.stroke();
-
-        bgCtx.fillStyle = s.color + 'DD';
-        bgCtx.beginPath();
-        bgCtx.arc(s.x, s.y, s.width * 1.2, 0, Math.PI * 2);
-        bgCtx.fill();
-      });
-      bgCtx.restore();
-
-      requestAnimationFrame(drawBg);
-    }
-
-    window.addEventListener('pointermove', e => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-      mouse.active = true;
-    });
-
-    window.addEventListener('resize', resizeBg);
-    resizeBg();
-    requestAnimationFrame(drawBg);
-  </script>
-
+    </script>
+<style>
+        .neon-glow {
+            box-shadow: 0 0 20px rgba(189, 0, 255, 0.3);
+            transition: box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out;
+        }
+        .neon-glow:hover {
+            box-shadow: 0 0 40px rgba(189, 0, 255, 0.6);
+            border-color: #ffb1c3; /* secondary */
+        }
+        .text-glow-hover:hover {
+            text-shadow: 0 0 10px rgba(0, 219, 233, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex antialiased">
+<!-- SideNavBar (from JSON) -->
+<nav class="hidden md:flex bg-surface fixed left-0 top-0 h-full w-64 border-r border-primary/20 backdrop-blur-xl shadow-[4px_0_24px_rgba(189,0,255,0.1)] flex-col py-gutter px-4 z-40">
+<!-- Header -->
+<div class="mb-8 flex items-center space-x-4">
+<div class="w-12 h-12 rounded-full bg-surface-container overflow-hidden border border-primary/30">
+<img alt="User Avatar" class="w-full h-full object-cover profile-avatar" data-alt="A stylized retro-futuristic synthwave gaming avatar. Profile picture showing a cool digital character wearing neon visors and headphones. The lighting is dominated by deep obsidian, electric purple, and neon cyan accents, capturing an immersive 80s arcade vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnm6UwO9wIQYn2GtsfjqCtdfsw7QkFdUmJTaO7cxLUFkYKn42LjErrbOEkg6uaRzeAZNvu35IN4xlZc2Xf1lI-iXHXxb3BgYS4AoJjy_HgnpxGHoI3Kq6JPWoyh_WOhrTVhlld8zP0c7yohwP226dxKRQsDJXtIy8xlqY-QaMwSYlHNnHW7BqcFxC4W7VgyIhi0R0zJYPKf6H1b11JyOk90g_7NrK1CRvdT72nIw7bg4880WyfSoEu"/>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-tertiary drop-shadow-[0_0_8px_rgba(0,219,233,0.5)]">NEON ARCADE</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Player 1</p>
+</div>
+</div>
+<!-- Main Navigation -->
+<div class="flex-1 space-y-2">
+<!-- Active: Home -->
+<a class="flex items-center space-x-3 p-3 rounded-DEFAULT text-primary border-r-4 border-primary bg-primary/10 transition-all duration-300 ease-in-out scale-[1.02] active:scale-95" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span data-i18n="nav_home">Home</span>
+</a>
+<!-- Inactive -->
+<a class="flex items-center space-x-3 p-3 rounded-DEFAULT text-on-surface-variant hover:text-primary/80 transition-colors hover:bg-surface-variant/50 hover:shadow-[0_0_15px_rgba(189,0,255,0.2)]" href="libreria.html">
+<span class="material-symbols-outlined">library_books</span>
+<span data-i18n="nav_games">Giochi</span>
+</a>
+<a class="flex items-center space-x-3 p-3 rounded-DEFAULT text-on-surface-variant hover:text-primary/80 transition-colors hover:bg-surface-variant/50 hover:shadow-[0_0_15px_rgba(189,0,255,0.2)]" href="#">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span data-i18n="nav_shop">Negozio</span>
+</a>
+<a class="flex items-center space-x-3 p-3 rounded-DEFAULT text-on-surface-variant hover:text-primary/80 transition-colors hover:bg-surface-variant/50 hover:shadow-[0_0_15px_rgba(189,0,255,0.2)]" href="profilo.html">
+<span class="material-symbols-outlined">person</span>
+<span data-i18n="nav_profile">Profilo</span>
+</a>
+</div>
+<!-- CTA -->
+<button class="mb-8 w-full py-3 px-4 bg-primary-container text-on-primary-container font-label-sm text-label-sm rounded-lg flex items-center justify-center space-x-2 neon-glow transition-all duration-300 ease-in-out active:scale-95">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span data-i18n="nav_addfunds">Aggiungi Fondi</span>
+</button>
+<!-- Footer Navigation -->
+<div class="space-y-2 mt-auto border-t border-outline-variant/30 pt-4">
+<a class="flex items-center space-x-3 p-3 rounded-DEFAULT text-on-surface-variant hover:text-primary/80 transition-colors hover:bg-surface-variant/50 hover:shadow-[0_0_15px_rgba(189,0,255,0.2)]" href="impostazioni.html">
+<span class="material-symbols-outlined">settings</span>
+<span data-i18n="nav_settings">Impostazioni</span>
+</a>
+<a class="flex items-center space-x-3 p-3 rounded-DEFAULT text-on-surface-variant hover:text-primary/80 transition-colors hover:bg-surface-variant/50 hover:shadow-[0_0_15px_rgba(189,0,255,0.2)]" href="#">
+<span class="material-symbols-outlined">help</span>
+<span>Supporto</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 md:ml-64 flex flex-col min-h-screen">
+<!-- TopNavBar (from JSON) -->
+<header class="bg-surface/80 fixed top-0 right-0 w-full md:w-[calc(100%-16rem)] z-50 border-b border-tertiary/20 backdrop-blur-md shadow-[0_4px_20px_rgba(0,219,233,0.1)] flex justify-between items-center h-16 px-gutter">
+<!-- Mobile Menu Toggle (hidden on desktop) -->
+<button class="md:hidden text-on-surface-variant hover:text-tertiary transition-all duration-200">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<!-- Search Bar -->
+<div class="flex-1 flex justify-end mr-6">
+<div class="relative w-64 focus-within:ring-2 focus-within:ring-tertiary/50 rounded-full transition-all duration-200">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-high border-b border-outline-variant/50 focus:border-tertiary text-on-surface font-body-md pl-10 pr-4 py-2 rounded-full focus:outline-none focus:ring-0 placeholder:text-on-surface-variant/50" placeholder="Cerca giochi..." type="text"/>
+</div>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center space-x-4">
+<button class="text-on-surface-variant hover:text-tertiary transition-all duration-200 focus-within:ring-2 focus-within:ring-tertiary/50 rounded-full p-1">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button onclick="window.location.href='impostazioni.html'" class="text-on-surface-variant hover:text-tertiary transition-all duration-200 focus-within:ring-2 focus-within:ring-tertiary/50 rounded-full p-1 cursor-pointer" aria-label="Apri impostazioni">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container overflow-hidden border border-primary/30 md:hidden">
+<img alt="Profilo Utente" class="w-full h-full object-cover" data-alt="A stylized retro-futuristic synthwave gaming avatar. Profile picture showing a cool digital character wearing neon visors and headphones. The lighting is dominated by deep obsidian, electric purple, and neon cyan accents, capturing an immersive 80s arcade vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDClFBMIj-1NiSZKqplHku2U3GdM0TgdmI1uwVrfUGE9S3c3vYyK6kLUod9tnoUq0pCMb6z4EwDI87KhgLDALSzX6R9aBT9LCbr8_YGE1MwyTBQO7ZPDNkb09Uy_XZBi4hg2y6CQckdaeLEDQCqWOOzILLAm0BkMFQ7Bs2qoBM5gSubPlGY_ynD6mW3Zyt1M1QJRwIu9wKEjLR3of1ItxRRXa1Cts-TVj98rpxGMFI_AAlUmdcYwp-g"/>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 p-margin-mobile md:p-margin-desktop mt-16 pb-24">
+<!-- Hero Banner: Neon Runner -->
+<section class="relative w-full h-[614px] min-h-[400px] rounded-xl overflow-hidden mb-12 border border-primary/30 neon-glow group">
+<!-- Background Image -->
+<div class="absolute inset-0 bg-cover bg-center w-full h-full transition-transform duration-700 group-hover:scale-105" data-alt="A spectacular cinematic wide shot of a high-speed cyberpunk racing game environment. Neon-lit sci-fi motorcycles speeding through a futuristic metropolis at night. The scene is saturated with intense electric purple, neon pink, and bright cyan glowing lights against deep obsidian shadows. Rain slicked streets reflect the dazzling arcade-style aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAACbXmeYEUIglolUVoQudsbP5DbQuMRDY8usK8QY3KG5R_jAhBxu5wjak0i1s_SfyiVCdLxLgWlYqO7_q2U8hZ9kfG5n3sA8sf2mzqST1i9D0uV4roHJ9utpTrxCEOm3YQ9QNDNarOH7Zg61M9DTRmJ2SRpsL1bm6CMoZ0cvlx2J1tzhzTtP5WDH8sJwm8iTk-nxHBKo2u2T44Nlc7vEKQLpOYPz8zqZHJSM_aJ2_i5BAf-JibSYZU')"></div>
+<!-- Gradient Overlay for readability -->
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface/80 to-transparent"></div>
+<!-- Hero Content -->
+<div class="absolute bottom-0 left-0 p-8 md:p-12 w-full md:w-2/3">
+<span class="inline-block bg-secondary/20 text-secondary font-label-sm text-label-sm px-3 py-1 rounded mb-4 uppercase tracking-wider backdrop-blur-sm border border-secondary/30">In Evidenza</span>
+<h2 class="font-headline-xl text-headline-lg-mobile md:text-headline-xl text-on-primary-container mb-2 drop-shadow-[0_0_15px_rgba(255,177,195,0.8)]">NEON RUNNER 2084</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-6 max-w-xl">Domina le strade al neon di Neo-Kyoto. Corri, schiva e sopravvivi al battito synthwave in questa avventura adrenalinica.</p>
+<div class="flex space-x-4">
+<button class="bg-primary-container text-on-primary-container font-label-sm text-label-sm py-3 px-6 rounded-lg flex items-center space-x-2 neon-glow hover:bg-inverse-primary transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+<span>Gioca Ora</span>
+</button>
+<button class="bg-transparent border border-tertiary text-tertiary font-label-sm text-label-sm py-3 px-6 rounded-lg flex items-center space-x-2 hover:bg-tertiary/10 transition-colors text-glow-hover shadow-[0_0_10px_rgba(0,219,233,0.2)]">
+<span class="material-symbols-outlined">add</span>
+<span>Lista dei Desideri</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Giochi Popolari (Bento Grid) -->
+<section class="mb-12">
+<div class="flex justify-between items-end mb-6">
+<h3 class="font-headline-lg text-headline-md md:text-headline-lg text-on-surface flex items-center space-x-3">
+<span class="material-symbols-outlined text-secondary drop-shadow-[0_0_8px_rgba(255,177,195,0.6)]">local_fire_department</span>
+<span>Giochi Popolari</span>
+</h3>
+<a class="font-label-sm text-label-sm text-tertiary hover:text-tertiary-fixed transition-colors flex items-center" href="#">Vedi tutti <span class="material-symbols-outlined text-sm ml-1">chevron_right</span></a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="bg-surface-container-high/80 rounded-xl overflow-hidden border border-primary/20 hover:border-secondary transition-all duration-300 group cursor-pointer hover:shadow-[0_0_30px_rgba(189,0,255,0.2)]">
+<div class="h-48 relative overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="A dynamic action scene from a retro space shooter game. A sleek starfighter blasting through an asteroid field illuminated by vibrant neon pink and cyan energy weapons. Deep space background with glowing purple nebulas, capturing a classic 80s arcade cabinet visual style." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCPzkxC0HdxmAeue-a1JnNqXBwdKymBFaN1EEzRduW0-r4Wzh-s9pjAj16rXTao1XB9graceVNDgWpA60FCp38DLxi5U8dXJ3HKnfGDYNmCOHaL_GZwgaTVgCoe7FX-IYptrSSU_Loq04KJTyrwIX2A8NkgIW1-QOsBzOKutEmZTYBCftKZzJkRBGQR9_N-_K3v3Bn87YvP2NeNw6X3RFLkjxZqIxoHsBEbXwS9iketC1JD-dAfsFIW')"></div>
+<div class="absolute top-2 right-2 bg-surface/80 backdrop-blur-md px-2 py-1 rounded text-label-sm font-label-sm text-on-surface flex items-center space-x-1 border border-primary/30">
+<span class="material-symbols-outlined text-[14px] text-tertiary">star</span>
+<span>4.8</span>
+</div>
+</div>
+<div class="p-4">
+<h4 class="font-headline-md text-headline-md text-tertiary group-hover:text-tertiary-fixed transition-colors mb-1 truncate">Galactic Synth</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-3">Sparatutto Spaziale</p>
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm bg-primary/20 text-primary px-2 py-1 rounded">Arcade</span>
+<span class="font-headline-md text-[16px] text-on-surface">€ 14.99</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-high/80 rounded-xl overflow-hidden border border-primary/20 hover:border-secondary transition-all duration-300 group cursor-pointer hover:shadow-[0_0_30px_rgba(189,0,255,0.2)]">
+<div class="h-48 relative overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="A moody isometric view of a cyberpunk detective game. A neon-drenched alleyway with glowing holograms, rain puddles reflecting vibrant cyan and magenta lights. A shadowy figure in a trench coat stands near a glowing arcade machine. High contrast, atmospheric glassmorphism aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBLb5n7JaMggbsrt_oA17erO6rv4qlinKFzHVKkFtLIef4FtgpU4N7s_b5SNaMKPg38_vRPUgwXqitZkSyo-PPiXcIzI0UvPzW8oz1WzXem5TBOrztIdwE8yJJzZgP3KxhL9nkn4LvFfefv4luQlhjg8i97s2EqEMZz3AaYbqnZpHuH_ngWlUXSTHozIxkM6090VEleFXEDs4RhcSbjOQEC9Ho4Rg3dbi2gQCvcqrwmv9qM6XnN52TZ')"></div>
+<div class="absolute top-2 right-2 bg-surface/80 backdrop-blur-md px-2 py-1 rounded text-label-sm font-label-sm text-on-surface flex items-center space-x-1 border border-primary/30">
+<span class="material-symbols-outlined text-[14px] text-tertiary">star</span>
+<span>4.5</span>
+</div>
+</div>
+<div class="p-4">
+<h4 class="font-headline-md text-headline-md text-tertiary group-hover:text-tertiary-fixed transition-colors mb-1 truncate">Vaporwave Noir</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-3">Avventura Investigativa</p>
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm bg-secondary/20 text-secondary px-2 py-1 rounded">Story</span>
+<span class="font-headline-md text-[16px] text-on-surface">€ 19.99</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-high/80 rounded-xl overflow-hidden border border-primary/20 hover:border-secondary transition-all duration-300 group cursor-pointer hover:shadow-[0_0_30px_rgba(189,0,255,0.2)]">
+<div class="h-48 relative overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="A fast-paced rhythm game interface showing a neon grid fading into the horizon. Glowing blocks in electric purple and bright cyan approach the player. Abstract geometric shapes pulse to an unseen beat against a deep obsidian background. Synthwave music visualizer aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBzQLak0dm5rERQmAMLuB-ubADrvqQBOQO9xYD1pTyZS8e3uXq8S_N0Bw-_ZeA-RYwntVElsUMVL3vIR-5ywDtH885tuYmM3ISMeMFfvg3QYgm8hs0nerp668EPgbAZ6VpIfAKJbv-ok3Vk4OZ-lEhiPgf8_NR8SMqoKYgzw_1ViYHm1y4rQ_0yEOx3iFTrDafiaGouAs4gXi2MQ83Jnffc6XrOQ9Km-6w9HPSMexJpo7yCR8liRnX9')"></div>
+<div class="absolute top-2 right-2 bg-surface/80 backdrop-blur-md px-2 py-1 rounded text-label-sm font-label-sm text-on-surface flex items-center space-x-1 border border-primary/30">
+<span class="material-symbols-outlined text-[14px] text-tertiary">star</span>
+<span>4.9</span>
+</div>
+</div>
+<div class="p-4">
+<h4 class="font-headline-md text-headline-md text-tertiary group-hover:text-tertiary-fixed transition-colors mb-1 truncate">BeatGrid Protocol</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-3">Rhythm Game</p>
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm bg-tertiary/20 text-tertiary px-2 py-1 rounded">Rhythm</span>
+<span class="font-headline-md text-[16px] text-on-surface">€ 9.99</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer (from JSON) -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest text-on-surface-variant dark:text-on-surface-variant font-label-sm text-label-sm w-full md:w-[calc(100%-16rem)] mt-auto border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-center py-8 px-gutter opacity-80 hover:opacity-100 transition-opacity z-10 relative">
+<div class="font-label-sm text-label-sm uppercase tracking-widest text-secondary mb-4 md:mb-0">
+                © 2024 NEON ARCADE - SYNTHWAVE GAMING
+            </div>
+<div class="flex space-x-6">
+<a class="text-on-surface-variant hover:text-on-surface transition-colors hover:text-secondary" href="#">Privacy</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors hover:text-secondary" href="#">Termini</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors hover:text-secondary" href="#">Cookie</a>
+</div>
+</footer>
+</div>
+<script src="i18n.js"></script>
+<script src="avatars.js"></script>
 </body>
 </html>
