@@ -13,6 +13,8 @@
     .light{ background:#f0d9b5; } .dark{ background:#b58863; } .sel{ background:#f6f669 !important; }
     .dot::after{ content:''; position:absolute; width:24px; height:24px; border-radius:50%; background:rgba(20,100,30,.5); top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none; }
     .cap{ box-shadow:inset 0 0 0 5px rgba(20,100,30,.6); } .last{ background:rgba(200,210,50,.4) !important; } .chk{ background:rgba(230,50,50,.55) !important; }
+    .black-piece { color: #111; }
+    .white-piece { color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
     .sidebar{ display:flex; flex-direction:column; gap:.9rem; min-width:185px; }
     .pbox{ background:var(--card); border:2px solid var(--accent2); border-radius:var(--radius); padding:.7rem 1rem; display:flex; align-items:center; gap:.6rem; font-weight:700; }
     .pbox.active{ border-color:var(--accent); }
@@ -26,18 +28,6 @@
   </style>
 </head>
 <body>
-<header>
-  <div class="logo">&#x1F3AE; Abdul Game</div>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="snake.html">Snake</a>
-    <a href="tris.html">Tris</a>
-    <a href="memory.html">Memory</a>
-    <a href="breakout.html">Breakout</a>
-    <a href="chess.html" class="active">&#x265F; Scacchi</a>
-  </nav>
-</header>
-
 <main class="game-page">
   <h1>&#x265F;&#xFE0F; <span>Scacchi</span></h1>
   <div style="display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;">
@@ -66,16 +56,16 @@
 const G={wK:'\u2654',wQ:'\u2655',wR:'\u2656',wB:'\u2657',wN:'\u2658',wP:'\u2659',bK:'\u265A',bQ:'\u265B',bR:'\u265C',bB:'\u265D',bN:'\u265E',bP:'\u265F'};
 const INIT=[['bR','bN','bB','bQ','bK','bB','bN','bR'],['bP','bP','bP','bP','bP','bP','bP','bP'],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],['wP','wP','wP','wP','wP','wP','wP','wP'],['wR','wN','wB','wQ','wK','wB','wN','wR']];
 let board,turn,sel,legalSqs,history,castle,ep,over,vsAI,busy;
-function cloneBoard(b){return b.map(r=>r.slice());}
+function cloneBoard(b){return b.map(r=>r.slice());} 
 function newGame(){board=cloneBoard(INIT);turn='w';sel=null;legalSqs=[];history=[];castle={wK:true,wQ:true,bK:true,bQ:true};ep=null;over=false;busy=false;document.getElementById('mlog').textContent='-';buildTable();draw();setMsg('Turno del Bianco '+G.wK+' - clicca un pezzo!');}
 function buildTable(){const tb=document.getElementById('tbody');tb.innerHTML='';for(let r=0;r<8;r++){const tr=document.createElement('tr');for(let c=0;c<8;c++){const td=document.createElement('td');td.className=(r+c)%2===0?'light':'dark';td.dataset.r=r;td.dataset.c=c;td.addEventListener('click',onCellClick);tr.appendChild(td);}tb.appendChild(tr);}}
 function cell(r,c){return document.querySelector('#cb td[data-r="'+r+'"][data-c="'+c+'"]');}
-function draw(){for(let r=0;r<8;r++)for(let c=0;c<8;c++){const td=cell(r,c);if(!td)continue;td.className=(r+c)%2===0?'light':'dark';const p=board[r][c];td.textContent=p?G[p]:'';}if(history.length>0){const lm=history[history.length-1];const a=cell(lm[0],lm[1]);if(a)a.classList.add('last');const b=cell(lm[2],lm[3]);if(b)b.classList.add('last');}if(!over){const kp=findKing(board,turn);if(kp&&inCheck(board,turn)){const kc=cell(kp[0],kp[1]);if(kc)kc.classList.add('chk');}}if(sel){const sc=cell(sel[0],sel[1]);if(sc)sc.classList.add('sel');for(const [lr,lc] of legalSqs){const sq=cell(lr,lc);if(!sq)continue;if(board[lr][lc])sq.classList.add('cap');else sq.classList.add('dot');}}document.getElementById('bw').className='pbox'+(turn==='w'?' active':'');document.getElementById('bb').className='pbox'+(turn==='b'?' active':'');}
+function draw(){for(let r=0;r<8;r++)for(let c=0;c<8;c++){const td=cell(r,c);if(!td)continue;td.className=(r+c)%2===0?'light':'dark';const p=board[r][c];td.textContent=p?G[p]:'';if(p){td.style.color=p[0]==='b'?'#111':'#fff';td.style.textShadow=p[0]==='b'?'none':'1px 1px 2px rgba(0,0,0,0.5)';}}if(history.length>0){const lm=history[history.length-1];const a=cell(lm[0],lm[1]);if(a)a.classList.add('last');const b=cell(lm[2],lm[3]);if(b)b.classList.add('last');}if(!over){const kp=findKing(board,turn);if(kp&&inCheck(board,turn)){const kc=cell(kp[0],kp[1]);if(kc)kc.classList.add('chk');}}if(sel){const sc=cell(sel[0],sel[1]);if(sc)sc.classList.add('sel');for(const [lr,lc] of legalSqs){const sq=cell(lr,lc);if(!sq)continue;if(board[lr][lc])sq.classList.add('cap');else sq.classList.add('dot');}}document.getElementById('bw').className='pbox'+(turn==='w'?' active':'');document.getElementById('bb').className='pbox'+(turn==='b'?' active':'');}
 function setMsg(t){document.getElementById('msg').textContent=t;}
 function onCellClick(e){if(over||busy)return;if(vsAI&&turn==='b')return;const r=parseInt(e.currentTarget.dataset.r,10);const c=parseInt(e.currentTarget.dataset.c,10);if(sel){const found=legalSqs.some(([lr,lc])=>lr===r&&lc===c);if(found){execMove(sel[0],sel[1],r,c,true);sel=null;legalSqs=[];return;}sel=null;legalSqs=[];}const p=board[r][c];if(p&&p[0]===turn){sel=[r,c];legalSqs=getLegal(board,r,c,turn,castle,ep);}draw();}
 function execMove(fr,fc,tr,tc,doAIafter){const p=board[fr][fc];const col=p[0];const typ=p[1];const opp=col==='w'?'b':'w';history.push([fr,fc,tr,tc,JSON.stringify(board),JSON.stringify(castle),ep]);let newEP=null;const captured=board[tr][tc];if(captured&&captured[1]==='R'){if(tr===7&&tc===0)castle.wQ=false;if(tr===7&&tc===7)castle.wK=false;if(tr===0&&tc===0)castle.bQ=false;if(tr===0&&tc===7)castle.bK=false;}if(typ==='K'){const row=col==='w'?7:0;if(fc===4&&tc===6){board[row][5]=board[row][7];board[row][7]=0;}if(fc===4&&tc===2){board[row][3]=board[row][0];board[row][0]=0;}castle[col+'K']=false;castle[col+'Q']=false;}if(typ==='R'){if(fr===7&&fc===0)castle.wQ=false;if(fr===7&&fc===7)castle.wK=false;if(fr===0&&fc===0)castle.bQ=false;if(fr===0&&fc===7)castle.bK=false;}if(typ==='P'&&ep&&tr===ep[0]&&tc===ep[1])board[col==='w'?tr+1:tr-1][tc]=0;if(typ==='P'&&Math.abs(tr-fr)===2)newEP=[(fr+tr)/2,tc];board[tr][tc]=p;board[fr][fc]=0;ep=newEP;if(typ==='P'&&(tr===0||tr===7)){busy=true;showPromo(col,choice=>{board[tr][tc]=col+choice;busy=false;finishMove(opp,doAIafter);});return;}finishMove(opp,doAIafter);}
 function finishMove(opp,doAIafter){logMove();turn=opp;if(checkmate(board,opp)){over=true;draw();setMsg('Scacco matto! Vince il '+(opp==='b'?'Bianco':'Nero')+'!');return;}if(stalemate(board,opp)){over=true;draw();setMsg('Stallo - pareggio!');return;}if(inCheck(board,opp))setMsg('Scacco al '+(opp==='w'?'Bianco':'Nero')+'!');else setMsg('Turno del '+(opp==='w'?'Bianco '+G.wK:'Nero '+G.bK));draw();if(doAIafter&&vsAI&&opp==='b'&&!over){busy=true;setTimeout(()=>{doAI();busy=false;},300);}}
-function showPromo(col,cb){const pc=document.getElementById('pchoice');pc.innerHTML='';for(const t of ['Q','R','B','N']){const d=document.createElement('div');d.textContent=G[col+t];d.onclick=()=>{document.getElementById('promo').classList.remove('on');cb(t);};pc.appendChild(d);}document.getElementById('promo').classList.add('on');}
+function showPromo(col,cb){const pc=document.getElementById('pchoice');pc.innerHTML='';for(const t of ['Q','R','B','N']){const d=document.createElement('div');d.textContent=G[col+t];d.style.color=col==='b'?'#111':'#fff';d.style.textShadow=col==='b'?'none':'1px 1px 2px rgba(0,0,0,0.5)';d.onclick=()=>{document.getElementById('promo').classList.remove('on');cb(t);};pc.appendChild(d);}document.getElementById('promo').classList.add('on');}
 const FILES='abcdefgh';
 function logMove(){const lm=history[history.length-1];const tr=lm[2],tc=lm[3];const p=board[tr][tc]||'';const nota=(p.length>1&&p[1]!=='P'?p[1]:'')+FILES[tc]+(8-tr);const col=p[0];const ml=document.getElementById('mlog');if(ml.textContent==='-')ml.innerHTML='';if(col==='w'){const n=Math.ceil(history.length/2);const d=document.createElement('div');d.id='mp'+n;d.innerHTML='<span style="color:#555">'+n+'.</span> <span class="mw">'+nota+'</span>';ml.appendChild(d);}else{const n2=Math.ceil(history.length/2);const ex=document.getElementById('mp'+n2);if(ex)ex.innerHTML+=' <span class="mb">'+nota+'</span>';}ml.scrollTop=ml.scrollHeight;}
 document.getElementById('btnUndo').addEventListener('click',()=>{if(busy||history.length===0)return;const steps=vsAI?2:1;for(let i=0;i<steps&&history.length>0;i++){const h=history.pop();board=JSON.parse(h[4]);castle=JSON.parse(h[5]);ep=h[6];const n=Math.ceil((history.length+1)/2);const d=document.getElementById('mp'+n);if(d)d.remove();}turn=history.length%2===0?'w':'b';over=false;busy=false;sel=null;legalSqs=[];setMsg('Turno del '+(turn==='w'?'Bianco '+G.wK:'Nero '+G.bK));draw();});

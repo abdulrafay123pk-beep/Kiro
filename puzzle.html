@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Puzzle - Abdul Game</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">🎮 Abdul Game</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="snake.html">Snake</a>
+      <a href="tris.html">Tris</a>
+      <a href="memory.html">Memory</a>
+      <a href="breakout.html">Breakout</a>
+      <a href="chess.html">♟ Scacchi</a>
+      <a href="puzzle.html" class="active">🧩 Puzzle</a>
+    </nav>
+  </header>
+
+  <main class="game-page">
+    <h1>🧩 <span>Puzzle</span></h1>
+
+    <div class="level-select">
+      <label>Livello:</label>
+      <select id="levelSelect">
+        <option value="3">🟢 3×3 (8 tasselli)</option>
+        <option value="4" selected>🟡 4×4 (15 tasselli)</option>
+        <option value="5">🔴 5×5 (24 tasselli)</option>
+      </select>
+    </div>
+
+    <div class="score-bar">
+      <div>Mosse: <b id="moves">0</b></div>
+      <div>Tempo: <b id="timer">0s</b></div>
+    </div>
+
+    <div class="puzzle-board" id="board"></div>
+
+    <div class="puzzle-controls">
+      <button class="btn" id="resetBtn">🔄 Nuovo puzzle</button>
+    </div>
+  </main>
+
+  <footer><p>&copy; 2026 Abdul Game</p></footer>
+
+  <script>
+    const boardEl = document.getElementById('board');
+    const movesEl = document.getElementById('moves');
+    const timerEl = document.getElementById('timer');
+    const resetBtn = document.getElementById('resetBtn');
+    const levelSelect = document.getElementById('levelSelect');
+    let size, tiles, emptyIdx, moves, timer, timerInterval, gameActive;
+
+    function init() {
+      size = parseInt(levelSelect.value);
+      clearInterval(timerInterval);
+      moves = 0;
+      timer = 0;
+      gameActive = true;
+      movesEl.textContent = '0';
+      timerEl.textContent = '0s';
+      generateSolvable();
+      render();
+    }
+
+    function generateSolvable() {
+      const total = size * size;
+      let arr = Array.from({ length: total - 1 }, (_, i) => i + 1);
+      arr.push(0);
+      
+      do {
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+      } while (!isSolvable(arr) || isSolved(arr));
+
+      tiles = arr;
+      emptyIdx = tiles.indexOf(0);
+    }
+
+    function isSolvable(arr) {
+      let inversions = 0;
+      const flattened = arr.filter(v => v !== 0);
+      for (let i = 0; i < flattened.length; i++) {
+        for (let j = i + 1; j < flattened.length; j++) {
+          if (flattened[i] > flattened[j]) inversions++;
+        }
+      }
+      if (size % 2 === 1) return inversions % 2 === 0;
+      const emptyRowFromBottom = size - Math.floor(emptyIdx / size);
+      return (inversions + emptyRowFromBottom) % 2 === 0;
+    }
+
+    function isSolved(arr) {
+      for (let i = 0; i < arr.length - 1; i++) {
+        if (arr[i] !== i + 1) return false;
+      }
+      return arr[arr.length - 1] === 0;
+    }
+
+    function render() {
+      boardEl.innerHTML = '';
+      boardEl.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+      
+      tiles.forEach((val, idx) => {
+        const cell = document.createElement('div');
+        cell.className = 'puzzle-tile';
+        if (val === 0) {
+          cell.classList.add('empty');
+          cell.textContent = '';
+        } else {
+          cell.textContent = val;
+          cell.dataset.idx = idx;
+          cell.addEventListener('click', () => handleClick(idx));
+          
+          const row = Math.floor(idx / size);
+          const col = idx % size;
+          const correctRow = Math.floor((val - 1) / size);
+          const correctCol = (val - 1) % size;
+          if (row === correctRow && col === correctCol) {
+            cell.classList.add('correct');
+          }
+        }
+        boardEl.appendChild(cell);
+      });
+    }
+
+    function handleClick(idx) {
+      if (!gameActive) return;
+      const neighbors = getNeighbors(emptyIdx);
+      if (neighbors.includes(idx)) {
+        if (moves === 0) startTimer();
+        tiles[emptyIdx] = tiles[idx];
+        tiles[idx] = 0;
+        emptyIdx = idx;
+        moves++;
+        movesEl.textContent = moves;
+        render();
+        if (isSolved(tiles)) {
+          gameActive = false;
+          clearInterval(timerInterval);
+          setTimeout(() => alert(`🧩 Puzzle completato in ${moves} mosse e ${timer} secondi!`), 300);
+        }
+      }
+    }
+
+    function getNeighbors(idx) {
+      const row = Math.floor(idx / size);
+      const col = idx % size;
+      const result = [];
+      if (row > 0) result.push(idx - size);
+      if (row < size - 1) result.push(idx + size);
+      if (col > 0) result.push(idx - 1);
+      if (col < size - 1) result.push(idx + 1);
+      return result;
+    }
+
+    function startTimer() {
+      timerInterval = setInterval(() => {
+        timer++;
+        timerEl.textContent = timer + 's';
+      }, 1000);
+    }
+
+    levelSelect.addEventListener('change', init);
+    resetBtn.addEventListener('click', init);
+    init();
+  </script>
+</body>
+</html>

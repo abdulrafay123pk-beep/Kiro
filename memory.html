@@ -22,9 +22,20 @@
   <main class="game-page">
     <h1>&#x1F0CF; <span>Memory</span></h1>
 
+    <div class="level-select">
+      <label>Livello:</label>
+      <select id="levelSelect">
+        <option value="1">&#x1F7E2; 1 (4 coppie)</option>
+        <option value="2">&#x1F7E1; 2 (6 coppie)</option>
+        <option value="3" selected>&#x1F534; 3 (8 coppie)</option>
+        <option value="4">&#x1F7E0; 4 (12 coppie)</option>
+        <option value="5">&#x1F7EB; 5 (16 coppie)</option>
+      </select>
+    </div>
+
     <div class="score-bar">
       <div>Mosse: <b id="moves">0</b></div>
-      <div>Coppie: <b id="pairs">0</b> / 8</div>
+      <div>Coppie: <b id="pairs">0</b> / <b id="totalPairs">8</b></div>
       <div>Tempo: <b id="timer">0s</b></div>
     </div>
 
@@ -36,18 +47,30 @@
   <footer><p>&copy; 2026 Abdul Game</p></footer>
 
   <script>
-    const EMOJIS = ['🐶', '🐱', '🐭', '🐹', '🦊', '🐻', '🐼', '🦄'];
+    const ALL_EMOJIS = ['🐶', '🐱', '🐭', '🐹', '🦊', '🐻', '🐼', '🦄', '🐸', '🐨', '🦁', '🐮', '🐷', '🐵', '🐔', '🐧'];
+    const LEVEL_PAIRS = [0, 4, 6, 8, 12, 16];
     let cards, flipped, matched, moves, timer, timerInterval, locked;
+    let currentLevel = 3;
 
     const boardEl = document.getElementById('board');
     const movesEl = document.getElementById('moves');
     const pairsEl = document.getElementById('pairs');
+    const totalPairsEl = document.getElementById('totalPairs');
     const timerEl = document.getElementById('timer');
     const resetBtn = document.getElementById('resetBtn');
+    const levelSelect = document.getElementById('levelSelect');
+
+    function getEmojis(count) {
+      const shuffled = [...ALL_EMOJIS].sort(() => Math.random() - 0.5);
+      return shuffled.slice(0, count);
+    }
 
     function init() {
+      currentLevel = parseInt(levelSelect.value);
+      const pairCount = LEVEL_PAIRS[currentLevel];
+      const selectedEmojis = getEmojis(pairCount);
       clearInterval(timerInterval);
-      cards = [...EMOJIS, ...EMOJIS].sort(() => Math.random() - 0.5);
+      cards = [...selectedEmojis, ...selectedEmojis].sort(() => Math.random() - 0.5);
       flipped = [];
       matched = 0;
       moves = 0;
@@ -55,7 +78,9 @@
       locked = false;
       movesEl.textContent = '0';
       pairsEl.textContent = '0';
+      totalPairsEl.textContent = pairCount;
       timerEl.textContent = '0s';
+      boardEl.dataset.level = currentLevel;
       render();
     }
 
@@ -97,7 +122,7 @@
             pairsEl.textContent = matched;
             flipped = [];
             locked = false;
-            if (matched === 8) win();
+            if (matched === LEVEL_PAIRS[currentLevel]) win();
           }, 500);
         } else {
           setTimeout(() => {
@@ -124,6 +149,7 @@
       }, 300);
     }
 
+    levelSelect.addEventListener('change', init);
     resetBtn.addEventListener('click', init);
     init();
   </script>

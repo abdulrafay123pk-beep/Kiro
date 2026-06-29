@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Scacchi - Abdul Game</title>
+  <title>Scacchi - GameZone</title>
   <link rel="stylesheet" href="style.css" />
   <style>
     #board-wrap {
@@ -110,10 +110,24 @@
     }
     .pchoice div:hover { border-color: var(--accent); transform: scale(1.08); }
   </style>
+  <style id="piece-colors">
+    .black-piece { color: #000000; text-shadow: 0 0 1px rgba(255,255,255,0.1); }
+    .white-piece { color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
+    @keyframes piece-slide {
+      from { transform: translate(var(--dx), var(--dy)); }
+      to { transform: translate(0, 0); }
+    }
+    .anim-slide {
+      display: inline-block;
+      animation: piece-slide 0.25s ease-out;
+      position: relative;
+      z-index: 10;
+    }
+  </style>
 </head>
 <body>
 <header>
-  <div class="logo">&#x1F3AE; Abdul Game</div>
+  <div class="logo">&#x1F3AE; GameZone</div>
   <nav>
     <a href="index.html">Home</a>
     <a href="snake.html">Snake</a>
@@ -140,15 +154,15 @@
     <table id="cb"><tbody id="tbody"></tbody></table>
 
     <div class="sidebar">
-      <div class="pbox active" id="bw"><span style="font-size:1.4rem">&#x2654;</span><span id="lw">Bianco (Tu)</span></div>
-      <div class="pbox" id="bb"><span style="font-size:1.4rem">&#x265A;</span><span id="lb">Nero (IA)</span></div>
+      <div class="pbox active" id="bw"><span class="white-piece" style="font-size:1.4rem">&#x2654;</span><span id="lw">Bianco (Tu)</span></div>
+      <div class="pbox" id="bb"><span class="black-piece" style="font-size:1.4rem">&#x265A;</span><span id="lb">Nero (IA)</span></div>
       <div style="font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Mosse</div>
       <div class="mlog" id="mlog">&#8212;</div>
     </div>
   </div>
 </main>
 
-<footer><p>&copy; 2026 Abdul Game</p></footer>
+<footer><p>&copy; 2026 GameZone</p></footer>
 
 <div id="promo">
   <div class="pbox2">
@@ -188,6 +202,7 @@ function newGame() {
   ep = null;
   over = false;
   busy = false;
+  lastMoveAnimated = true;
   document.getElementById('mlog').textContent = '—';
   buildTable();
   draw();
@@ -221,10 +236,28 @@ function draw() {
       const td = cell(r, c);
       if (!td) continue;
       td.className = (r + c) % 2 === 0 ? 'light' : 'dark';
+      td.innerHTML = '';
       const p = board[r][c];
-      td.textContent = p ? G[p] : '';
+      if (p) {
+        const span = document.createElement('span');
+        span.className = p[0] === 'w' ? 'white-piece' : 'black-piece';
+        span.textContent = G[p];
+        if (!lastMoveAnimated && history.length > 0) {
+          const lm = history[history.length - 1];
+          if (r === lm[2] && c === lm[3]) {
+            const dr = lm[0] - r;
+            const dc = lm[1] - c;
+            const size = td.offsetWidth || 62;
+            span.style.setProperty('--dx', (dc * size) + 'px');
+            span.style.setProperty('--dy', (dr * size) + 'px');
+            span.classList.add('anim-slide');
+          }
+        }
+        td.appendChild(span);
+      }
     }
   }
+  lastMoveAnimated = true;
 
   if (history.length > 0) {
     const lm = history[history.length - 1];
@@ -290,6 +323,7 @@ function execMove(fr, fc, tr, tc, doAIafter) {
   const typ = p[1];
   const opp = col === 'w' ? 'b' : 'w';
   const captured = board[tr][tc];
+  lastMoveAnimated = false;
 
   history.push([fr, fc, tr, tc, JSON.stringify(board), JSON.stringify(castle), ep]);
 
@@ -389,6 +423,7 @@ function showPromo(col, cb) {
   for (const t of ['Q', 'R', 'B', 'N']) {
     const d = document.createElement('div');
     d.textContent = G[col + t];
+    d.classList.add(col === 'w' ? 'white-piece' : 'black-piece');
     d.onclick = () => {
       document.getElementById('promo').classList.remove('on');
       cb(t);
@@ -444,6 +479,7 @@ document.getElementById('btnUndo').addEventListener('click', () => {
   turn = history.length % 2 === 0 ? 'w' : 'b';
   over = false;
   busy = false;
+  lastMoveAnimated = true;
   sel = null;
   legalSqs = [];
   setMsg('Turno del ' + (turn === 'w' ? 'Bianco ♔' : 'Nero ♚'));
